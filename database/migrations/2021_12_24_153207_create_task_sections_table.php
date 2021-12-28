@@ -16,7 +16,9 @@ class CreateTaskSectionsTable extends Migration
         Schema::create('task_sections', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('section');
-            $table->foreignId('question_group_id')->constrained('question_groups');
+            $table->foreignId('question_group_id')->constrained('question_groups')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

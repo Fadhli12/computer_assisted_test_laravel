@@ -16,7 +16,10 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->text('question');
-            $table->foreignId('task_section_id')->constrained('task_sections');
+            $table->foreignId('task_section_id')
+                ->constrained('task_sections')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->unsignedInteger('question_group_id');
             $table->unsignedBigInteger('user_created')->nullable();
             $table->unsignedBigInteger('user_updated')->nullable();
