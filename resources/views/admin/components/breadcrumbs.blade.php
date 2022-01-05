@@ -1,11 +1,13 @@
+@if (isset($breadcrumbs))
 <ul class="breadcrumb">
+    @foreach ($breadcrumbs AS $breadcrumb)
     <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        @if (isset($breadcrumb['url']))
+        <a href="{{$breadcrumb['url']}}">{{$breadcrumb['label']}}</a>
+        @else
+            <span>{{$breadcrumb['label']}}</span>
+        @endif
     </li>
-    <li class="breadcrumb-item">
-        <a href="index.html">Products</a>
-    </li>
-    <li class="breadcrumb-item">
-        <span>Laptop with retina screen</span>
-    </li>
+    @endforeach
 </ul>
+@endif

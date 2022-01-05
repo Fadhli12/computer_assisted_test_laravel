@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="form-buttons-w">
-                    <a href="{{route('admin.room')}}" class="btn btn-dark">Kembali</a>
+                    <a href="{{route('admin.room')}}" class="btn btn-dark">Back</a>
                     <button class="btn btn-primary" type="submit" disabled> Submit</button>
                 </div>
             </form>
@@ -119,8 +119,8 @@
 @push('add-script')
     <script>
         $(document).ready(function () {
-            var group_exist = {{$room->questionGroups->count() ? $room->questionGroups->pluck('id') : []}};
-            @if ($room->questionGroups->count())
+            var group_exist = {{optional($room->questionGroups)->count() ? $room->questionGroups->pluck('id') : "[]"}};
+            @if (optional($room->questionGroups)->count())
             $('[type=submit]').prop('disabled', false);
             $('.empty').hide()
             @endif

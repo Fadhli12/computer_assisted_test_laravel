@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index(){
-        return view('admin.pages.dashboard');
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Dashboard',
+            ]
+        ];
+        return view('admin.pages.dashboard',compact('breadcrumbs'));
     }
 }

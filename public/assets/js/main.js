@@ -17,7 +17,7 @@ Main javascript functions to init most of the elements
 #13. EMAIL APP
 #14. FULL CHAT APP
 #15. CRM PIPELINE
-#16. OUR OWN CUSTOM DROPDOWNS 
+#16. OUR OWN CUSTOM DROPDOWNS
 #17. BOOTSTRAP RELATED JS ACTIVATIONS
 #18. TODO Application
 #19. Fancy Selector
@@ -58,7 +58,7 @@ function os_init_sub_menus(){
     menu_timer = setTimeout(function(){
       $elem.removeClass('active').closest('ul').removeClass('has-active');
     }, 30);
-  });  
+  });
 
   // INIT MENU TO ACTIVATE ON CLICK
   $('.menu-activated-on-click').on('click', 'li.has-sub-menu > a', function(event){
@@ -71,7 +71,7 @@ function os_init_sub_menus(){
     }
     return false;
   });
-  
+
 }
 
 $(function(){
@@ -595,7 +595,7 @@ $(function(){
                 data: [300, 50, 100, 30, 70],
                 backgroundColor: [ "#5797fc", "#7e6fff", "#4ecc48", "#ffcc29", "#f37070" ],
                 hoverBackgroundColor: [ "#5797fc", "#7e6fff", "#4ecc48", "#ffcc29", "#f37070" ],
-                borderWidth: 0 
+                borderWidth: 0
             }]
       };
 
@@ -639,7 +639,7 @@ $(function(){
                 data: [300, 50, 100, 30, 70],
                 backgroundColor: [ "#5797fc", "#7e6fff", "#4ecc48", "#ffcc29", "#f37070" ],
                 hoverBackgroundColor: [ "#5797fc", "#7e6fff", "#4ecc48", "#ffcc29", "#f37070" ],
-                borderWidth: 0 
+                borderWidth: 0
             }]
       };
 
@@ -725,7 +725,7 @@ $(function(){
 
 
 
-  // #13. EMAIL APP 
+  // #13. EMAIL APP
 
   $('.more-messages').on('click', function(){
     $(this).hide();
@@ -814,7 +814,7 @@ $(function(){
 
 
 
-  // #16. OUR OWN CUSTOM DROPDOWNS 
+  // #16. OUR OWN CUSTOM DROPDOWNS
   $('.os-dropdown-trigger').on('mouseenter', function(){
     $(this).addClass('over');
   });
@@ -860,7 +860,7 @@ $(function(){
   // Drag init
   if($('.tasks-list').length){
     // INIT DRAG AND DROP FOR Todo Tasks
-    var dragulaTasksObj = dragula($('.tasks-list').toArray(), { 
+    var dragulaTasksObj = dragula($('.tasks-list').toArray(), {
       moves: function (el, container, handle) {
         return handle.classList.contains('drag-handle');
       }
@@ -963,24 +963,31 @@ $(function(){
   }
 
   // #22. Colors Toggler
-
-  $('.floated-colors-btn').on('click', function(){
-    if($('body').hasClass('color-scheme-dark')){
-      $('.menu-w').removeClass('color-scheme-dark').addClass('color-scheme-light').removeClass('selected-menu-color-bright').addClass('selected-menu-color-light');
-      $(this).find('.os-toggler-w').removeClass('on');
-    }else{
-      $('.menu-w, .top-bar').removeClass(function (index, className) {
-          return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
-      });
-      $('.menu-w').removeClass(function (index, className) {
-          return (className.match (/(^|\s)color-style-\S+/g) || []).join(' ');
-      });
-      $('.menu-w').addClass('color-scheme-dark').addClass('color-style-transparent').removeClass('selected-menu-color-light').addClass('selected-menu-color-bright');
-      $('.top-bar').addClass('color-scheme-transparent');
-      $(this).find('.os-toggler-w').addClass('on');
+    function toggleColor(){
+        if($('body').hasClass('color-scheme-dark')){
+            $('.menu-w').removeClass('color-scheme-dark').addClass('color-scheme-light').removeClass('selected-menu-color-bright').addClass('selected-menu-color-light');
+            $(this).find('.os-toggler-w').removeClass('on');
+        }else{
+            $('.menu-w, .top-bar').removeClass(function (index, className) {
+                return (className.match (/(^|\s)color-scheme-\S+/g) || []).join(' ');
+            });
+            $('.menu-w').removeClass(function (index, className) {
+                return (className.match (/(^|\s)color-style-\S+/g) || []).join(' ');
+            });
+            $('.menu-w').addClass('color-scheme-dark').addClass('color-style-transparent').removeClass('selected-menu-color-light').addClass('selected-menu-color-bright');
+            $('.top-bar').addClass('color-scheme-transparent');
+            $(this).find('.os-toggler-w').addClass('on');
+        }
+        $('body').toggleClass('color-scheme-dark');
+        return false;
     }
-    $('body').toggleClass('color-scheme-dark');
-    return false;
+  if (parseInt(localStorage.getItem('darkMode') ?? 0)){
+      toggleColor();
+  }
+  $('.floated-colors-btn').on('click', function(){
+      let darkMode = parseInt(localStorage.getItem('darkMode') ?? 0);
+      localStorage.setItem('darkMode', darkMode ? 0 : 1);
+      toggleColor();
   });
 
   // #23. Autosuggest Search

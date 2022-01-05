@@ -15,14 +15,35 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class QuestionGroupController extends Controller
 {
     public function index(){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Question Group',
+            ]
+        ];
         $data = QuestionGroup::get();
-        return view('admin.pages.question_group.index',compact('data'));
+        return view('admin.pages.question_group.index',compact('data','breadcrumbs'));
     }
 
     public function add(){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Question Group',
+                'url' => route('admin.question-group'),
+            ],[
+                'label' => 'Add'
+            ]
+        ];
         $question_group = new QuestionGroup();
         $types = QuestionGroup::typeQuestionGroupForOption();
-        return view('admin.pages.question_group.add',compact('types','question_group'));
+        return view('admin.pages.question_group.add',compact('types','question_group','breadcrumbs'));
     }
 
     public function create(StoreQuestionGroupRequest $request){
@@ -45,8 +66,20 @@ class QuestionGroupController extends Controller
     }
 
     public function edit(QuestionGroup $question_group){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Question Group',
+                'url' => route('admin.question-group'),
+            ],[
+                'label' => 'Edit'
+            ]
+        ];
         $types = QuestionGroup::typeQuestionGroupForOption();
-        return view('admin.pages.question_group.add',compact('types','question_group'));
+        return view('admin.pages.question_group.add',compact('types','question_group','breadcrumbs'));
     }
 
     public function update(UpdateQuestionGroupRequest $request, QuestionGroup $question_group){
@@ -81,13 +114,40 @@ class QuestionGroupController extends Controller
     }
 
     public function section(QuestionGroup $question_group){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Question Group',
+                'url' => route('admin.question-group'),
+            ],[
+                'label' => 'Section'
+            ]
+        ];
         $question_group->load('sections');
-        return view('admin.pages.question_group.section.index',compact('question_group'));
+        return view('admin.pages.question_group.section.index',compact('question_group','breadcrumbs'));
     }
 
     public function questions(QuestionGroup $question_group, TaskSection $section){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Question Group',
+                'url' => route('admin.question-group'),
+            ],[
+                'label' => 'Section',
+                'url' => route('admin.question-group.section',$question_group)
+            ],[
+                'label' => 'Question'
+            ]
+        ];
         $section->load(['questions.answers']);
-        return view('admin.pages.question_group.section.questions.index',compact('section','question_group'));
+        return view('admin.pages.question_group.section.questions.index',compact('section','question_group','breadcrumbs'));
     }
 
     public function createQuestions(Request $request, QuestionGroup $question_group, TaskSection $section){

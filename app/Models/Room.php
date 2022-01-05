@@ -76,6 +76,11 @@ class Room extends Model
         return route('admin.room.edit',$this->id);
     }
 
+    public function getTotalDurationAttribute(){
+        return $this->questionGroups->reduce(function ($total,$value){
+            return $total + ($value->section_ammount * $value->duration_per_section);
+        },0);
+    }
     // Relations ...
     public function questionGroups(){
         return $this->belongsToMany(QuestionGroup::class,'room_question_groups');

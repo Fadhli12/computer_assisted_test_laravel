@@ -3,21 +3,21 @@
         <a class="logo" href="index.html">
             <div class="logo-element"></div>
             <div class="logo-label">
-                Clean Admin
+                Superior Sulbar
             </div>
         </a>
     </div>
     <div class="logged-user-w avatar-inline">
         <div class="logged-user-i">
             <div class="avatar-w">
-                <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
             </div>
             <div class="logged-user-info-w">
                 <div class="logged-user-name">
-                    Maria Gomez
+                    {{auth()->user()->name}}
                 </div>
                 <div class="logged-user-role">
-                    Administrator
+
                 </div>
             </div>
             <div class="logged-user-toggler-arrow">
@@ -26,14 +26,14 @@
             <div class="logged-user-menu color-style-bright">
                 <div class="logged-user-avatar-info">
                     <div class="avatar-w">
-                        <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                        <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                     </div>
                     <div class="logged-user-info-w">
                         <div class="logged-user-name">
-                            Maria Gomez
+                            {{auth()->user()->name}}
                         </div>
                         <div class="logged-user-role">
-                            Administrator
+
                         </div>
                     </div>
                 </div>
@@ -41,20 +41,21 @@
                     <i class="os-icon os-icon-wallet-loaded"></i>
                 </div>
                 <ul>
-                    <li>
+                   {{-- <li>
                         <a href="apps_email.html"><i class="os-icon os-icon-mail-01"></i><span>Incoming Mail</span></a>
                     </li>
-                    <li>
-                        <a href="users_profile_big.html"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
-                    </li>
+
                     <li>
                         <a href="users_profile_small.html"><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>
                     </li>
                     <li>
                         <a href="#"><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
+                    </li>--}}
+                    <li>
+                        <a href="users_profile_big.html"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
                     </li>
                     <li>
-                        <a href="#"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+                        <a href="{{route('logout')}}"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
                     </li>
                 </ul>
             </div>
@@ -75,7 +76,7 @@
                     <li>
                         <a href="#">
                             <div class="user-avatar-w">
-                                <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                                <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                             </div>
                             <div class="message-content">
                                 <h6 class="message-from">
@@ -181,7 +182,7 @@
                     <li>
                         <a href="#">
                             <div class="user-avatar-w">
-                                <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                                <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                             </div>
                             <div class="message-content">
                                 <h6 class="message-from">
@@ -256,7 +257,7 @@
         <li class="sub-header">
             <span></span>
         </li>
-        <li class="selected">
+        <li class="{{url()->current() === route('admin.dashboard') ? 'active selected' : ''}}">
             <a href="{{route('admin.dashboard')}}">
                 <div class="icon-w">
                     <div class="os-icon os-icon-layout"></div>
@@ -266,14 +267,14 @@
         <li class="sub-header">
             <span>Room</span>
         </li>
-        <li class=" ">
+        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.room')) ? 'active selected' : ''}}">
             <a href="{{route('admin.room')}}">
                 <div class="icon-w">
                     <div class="os-icon os-icon-layers"></div>
                 </div>
                 <span>Room</span></a>
         </li>
-        <li class=" ">
+        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.room')) ? 'active selected' : ''}}">
             <a href="">
                 <div class="icon-w">
                     <div class="os-icon os-icon-credit-card"></div>
@@ -283,7 +284,7 @@
         <li class="sub-header">
             <span>Question</span>
         </li>
-        <li class=" ">
+        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.question-group')) ? 'active selected' : ''}}">
             <a href="{{route('admin.question-group')}}">
                 <div class="icon-w">
                     <div class="os-icon os-icon-documents-03"></div>

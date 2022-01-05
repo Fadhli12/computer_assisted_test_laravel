@@ -28,6 +28,7 @@ class UpdateQuestionGroupRequest extends FormRequest
         return [
             'name' => 'required',
             'type' => 'required|in:' . $type,
+            'group_type' => 'required',
             'section_ammount' => 'required|numeric',
             'question_ammount_per_section' => 'required|numeric',
             'duration_per_section' => 'required|numeric',

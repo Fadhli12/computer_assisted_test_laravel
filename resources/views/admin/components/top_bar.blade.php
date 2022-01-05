@@ -20,7 +20,7 @@
                         <li>
                             <a href="#">
                                 <div class="user-avatar-w">
-                                    <img alt="" src="{{asset('assets')}}/img/avatar1.jpg"/>
+                                    <img alt="" src="{{asset('assets')}}/img/avatar8.png"/>
                                 </div>
                                 <div class="message-content">
                                     <h6 class="message-from">
@@ -121,19 +121,20 @@
         <div class="logged-user-w">
             <div class="logged-user-i">
                 <div class="avatar-w">
-                    <img alt="" src="{{asset('assets')}}/img/avatar1.jpg"/>
+                    <img alt="" src="{{asset('assets')}}/img/avatar8.png"/>
                 </div>
                 <div class="logged-user-menu color-style-bright">
                     <div class="logged-user-avatar-info">
                         <div class="avatar-w">
-                            <img alt="" src="{{asset('assets')}}/img/avatar1.jpg"/>
+                            <img alt="" src="{{asset('assets')}}/img/avatar8.png"/>
                         </div>
                         <div class="logged-user-info-w">
                             <div class="logged-user-name">
-                                Maria Gomez
+                                {{auth()->user()->name}}
                             </div>
                             <div class="logged-user-role">
-                                Administrator
+
+
                             </div>
                         </div>
                     </div>
@@ -142,19 +143,10 @@
                     </div>
                     <ul>
                         <li>
-                            <a href="apps_email.html"><i class="os-icon os-icon-mail-01"></i><span>Incoming Mail</span></a>
-                        </li>
-                        <li>
                             <a href="users_profile_big.html"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
                         </li>
                         <li>
-                            <a href="users_profile_small.html"><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+                            <a href="{{route('logout')}}"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
                         </li>
                     </ul>
                 </div>

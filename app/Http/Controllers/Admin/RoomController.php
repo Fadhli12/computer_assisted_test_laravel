@@ -11,16 +11,38 @@ use Illuminate\Support\Facades\DB;
 class RoomController extends Controller
 {
     public function index(){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Room',
+            ]
+        ];
         $rooms = Room::with('questionGroups')->get();
-        return view('admin.pages.room.index',compact('rooms'));
+        return view('admin.pages.room.index',compact('rooms','breadcrumbs'));
     }
 
     public function add(){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Room',
+                'url' => route('admin.room'),
+            ],
+            [
+                'label' => 'Add',
+            ]
+        ];
         $room = new Room();
         $question_group = QuestionGroup::get()->filter(function ($filter){
             return $filter->total_question === $filter->total_question_filled;
         });
-        return view('admin.pages.room.add',compact('room','question_group'));
+        return view('admin.pages.room.add',compact('room','question_group','breadcrumbs'));
     }
 
     public function create(Request $request){
@@ -42,10 +64,23 @@ class RoomController extends Controller
     }
 
     public function edit(Room $room){
+        $breadcrumbs = [
+            [
+                'label' => 'Superior Sulbar',
+                'url' => route('admin.dashboard'),
+            ],
+            [
+                'label' => 'Room',
+                'url' => route('admin.room'),
+            ],
+            [
+                'label' => 'Edit',
+            ]
+        ];
         $question_group = QuestionGroup::get()->filter(function ($filter){
             return $filter->total_question === $filter->total_question_filled;
         });
-        return view('admin.pages.room.add',compact('question_group','room'));
+        return view('admin.pages.room.add',compact('question_group','room','breadcrumbs'));
     }
 
     public function update(Request $request, Room $room){

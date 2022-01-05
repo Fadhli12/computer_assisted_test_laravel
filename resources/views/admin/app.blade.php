@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Computer Assisted Test</title>
+    <title>Superior Sulbar</title>
     <meta charset="utf-8" />
     <meta content="ie=edge" http-equiv="x-ua-compatible" />
     <meta content="template language" name="keywords" />
@@ -21,6 +21,11 @@
     <link href="{{asset('assets')}}/css/main.css?version=4.4.0" rel="stylesheet" />
 </head>
 @stack('add-style')
+<style>
+    .content-box {
+        min-height: 900px;
+    }
+</style>
 <body class="menu-position-side menu-side-left full-screen with-content-panel">
 <div class="all-wrapper with-side-panel solid-bg-all">
     @if (false)

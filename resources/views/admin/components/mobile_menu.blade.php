@@ -13,14 +13,15 @@
     <div class="menu-and-user">
         <div class="logged-user-w">
             <div class="avatar-w">
-                <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
             </div>
             <div class="logged-user-info-w">
                 <div class="logged-user-name">
-                    Maria Gomez
+                    {{auth()->user()->name}}
                 </div>
                 <div class="logged-user-role">
-                    Administrator
+
+
                 </div>
             </div>
         </div>

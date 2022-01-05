@@ -23,7 +23,7 @@
             <div class="profile-tile">
                 <a class="profile-tile-box" href="users_profile_small.html">
                     <div class="pt-avatar-w">
-                        <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                        <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                     </div>
                     <div class="pt-user-name">
                         John Mayers
@@ -91,7 +91,7 @@
                     </div>
                     <div class="activity-box">
                         <div class="activity-avatar">
-                            <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                            <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                         </div>
                         <div class="activity-info">
                             <div class="activity-role">
@@ -169,7 +169,7 @@
                 <div class="user-w with-status status-green">
                     <div class="user-avatar-w">
                         <div class="user-avatar">
-                            <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                            <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                         </div>
                     </div>
                     <div class="user-name">
@@ -195,7 +195,8 @@
                             Ben Gossman
                         </h6>
                         <div class="user-role">
-                            Administrator
+
+
                         </div>
                     </div>
                     <a class="user-action" href="users_profile_small.html">

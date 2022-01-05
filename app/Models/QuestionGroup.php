@@ -37,7 +37,8 @@ class QuestionGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type', 'section_ammount', 'question_ammount_per_section', 'duration_per_section', 'is_skippable', 'user_created', 'user_updated', 'created_at', 'updated_at'
+        'name', 'type', 'section_ammount', 'question_ammount_per_section', 'duration_per_section', 'is_skippable', 'user_created', 'user_updated', 'created_at', 'updated_at',
+        'group_type'
     ];
 
     /**

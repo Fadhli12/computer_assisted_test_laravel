@@ -33,7 +33,8 @@ END - Color Scheme Toggler
             </div>
             <div class="fcp-group-contents">
                 <div class="fcp-field">
-                    <label for="">Menu Position</label><select class="menu-position-selector">
+                    <label for="">Menu Position</label>
+                    <select class="menu-position-selector">
                         <option value="left">
                             Left
                         </option>
@@ -46,7 +47,8 @@ END - Color Scheme Toggler
                     </select>
                 </div>
                 <div class="fcp-field">
-                    <label for="">Menu Style</label><select class="menu-layout-selector">
+                    <label for="">Menu Style</label>
+                    <select class="menu-layout-selector">
                         <option value="compact">
                             Compact
                         </option>
@@ -59,7 +61,8 @@ END - Color Scheme Toggler
                     </select>
                 </div>
                 <div class="fcp-field with-image-selector-w">
-                    <label for="">With Image</label><select class="with-image-selector">
+                    <label for="">With Image</label>
+                    <select class="with-image-selector">
                         <option value="yes">
                             Yes
                         </option>
@@ -85,7 +88,8 @@ END - Color Scheme Toggler
             </div>
             <div class="fcp-group-contents">
                 <div class="fcp-field">
-                    <label for="">Sub Menu Style</label><select class="sub-menu-style-selector">
+                    <label for="">Sub Menu Style</label>
+                    <select class="sub-menu-style-selector">
                         <option value="flyout">
                             Flyout
                         </option>
@@ -113,7 +117,8 @@ END - Color Scheme Toggler
             </div>
             <div class="fcp-group-contents">
                 <div class="fcp-field">
-                    <label for="">Full Screen?</label><select class="full-screen-selector">
+                    <label for="">Full Screen?</label>
+                    <select class="full-screen-selector">
                         <option value="yes">
                             Yes
                         </option>
@@ -123,7 +128,8 @@ END - Color Scheme Toggler
                     </select>
                 </div>
                 <div class="fcp-field">
-                    <label for="">Show Top Bar</label><select class="top-bar-visibility-selector">
+                    <label for="">Show Top Bar</label>
+                    <select class="top-bar-visibility-selector">
                         <option value="yes">
                             Yes
                         </option>
@@ -133,7 +139,8 @@ END - Color Scheme Toggler
                     </select>
                 </div>
                 <div class="fcp-field">
-                    <label for="">Above Menu?</label><select class="top-bar-above-menu-selector">
+                    <label for="">Above Menu?</label>
+                    <select class="top-bar-above-menu-selector">
                         <option value="yes">
                             Yes
                         </option>
@@ -174,7 +181,7 @@ END - Demo Customizer
             <div class="user-w with-status status-green">
                 <div class="user-avatar-w">
                     <div class="user-avatar">
-                        <img alt="" src="{{asset('assets')}}/img/avatar1.jpg" />
+                        <img alt="" src="{{asset('assets')}}/img/avatar8.png" />
                     </div>
                 </div>
                 <div class="user-name">
@@ -216,6 +223,64 @@ END - Demo Customizer
     </div>
 </div>
 @endif
+@push('add-script')
+    <script>
+        $(document).ready(function (){
+            $('.menu-position-selector').change(function () {
+                localStorage.setItem('menu-position-selector', $(this).val());
+            })
+            $('.menu-layout-selector').change(function () {
+                localStorage.setItem('menu-layout-selector', $(this).val());
+            })
+            $('.with-image-selector').change(function () {
+                localStorage.setItem('with-image-selector', $(this).val());
+            })
+            $('.menu-color-selector').click(function (){
+                if ($(this).hasClass('color-bright')){
+                    localStorage.setItem('menu-color-selector','color-bright')
+                } else if ($(this).hasClass('color-dark')){
+                    localStorage.setItem('menu-color-selector','color-dark')
+                } else if ($(this).hasClass('color-light')){
+                    localStorage.setItem('menu-color-selector','color-light')
+                } else if ($(this).hasClass('color-transparent')){
+                    localStorage.setItem('menu-color-selector','color-transparent')
+                }
+            })
+            $('.sub-menu-style-selector').change(function () {
+                localStorage.setItem('sub-menu-style-selector', $(this).val());
+            })
+            $('.sub-menu-color-selector').click(function (){
+                if ($(this).hasClass('color-bright')){
+                    localStorage.setItem('sub-menu-color-selector','color-bright')
+                } else if ($(this).hasClass('color-dark')){
+                    localStorage.setItem('sub-menu-color-selector','color-dark')
+                } else if ($(this).hasClass('color-light')){
+                    localStorage.setItem('sub-menu-color-selector','color-light')
+                }
+            })
+            $('.full-screen-selector').change(function () {
+                localStorage.setItem('full-screen-selector', $(this).val());
+            })
+            $('.top-bar-visibility-selector').change(function () {
+                localStorage.setItem('top-bar-visibility-selector', $(this).val());
+            })
+            $('.top-bar-above-menu-selector').change(function () {
+                localStorage.setItem('top-bar-above-menu-selector', $(this).val());
+            })
+            $('.top-bar-color-selector').click(function (){
+                if ($(this).hasClass('color-bright')){
+                    localStorage.setItem('top-bar-color-selector','color-bright')
+                } else if ($(this).hasClass('color-dark')){
+                    localStorage.setItem('top-bar-color-selector','color-dark')
+                } else if ($(this).hasClass('color-light')){
+                    localStorage.setItem('top-bar-color-selector','color-light')
+                } else if ($(this).hasClass('color-transparent')){
+                    localStorage.setItem('top-bar-color-selector','color-transparent')
+                }
+            })
+        })
+    </script>
+@endpush
 <!--------------------
 END - Chat Popup Box
 -------------------->
