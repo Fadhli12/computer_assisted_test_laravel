@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $breadcrumbs = [
             [
                 'label' => 'Superior Sulbar',
@@ -17,6 +17,6 @@ class DashboardController extends Controller
                 'label' => 'Dashboard',
             ]
         ];
-        return view('admin.pages.dashboard',compact('breadcrumbs'));
+        return view('admin.pages.dashboard', compact('breadcrumbs'));
     }
 }

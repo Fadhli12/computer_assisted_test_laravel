@@ -291,6 +291,16 @@
                 </div>
                 <span>Question Group</span></a>
         </li>
+        <li class="sub-header">
+            <span>User</span>
+        </li>
+        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.user')) ? 'active selected' : ''}}">
+            <a href="{{route('admin.user')}}">
+                <div class="icon-w">
+                    <div class="os-icon os-icon-users"></div>
+                </div>
+                <span>User Admin</span></a>
+        </li>
         @if (false)
             <li class="sub-header">
                 <span>Options</span>

@@ -6,7 +6,6 @@ $(function () {
         return false;
     });
 
-
     function os_init_customizer() {
         // MENU LAYOUT
         if ($('.menu-w').hasClass('menu-layout-compact')) {
@@ -119,6 +118,8 @@ $(function () {
         } else {
             $('.top-bar-above-menu-selector').val('yes');
         }
+
+
         if (menu = localStorage.getItem('menu-position-selector')){
             $('.menu-position-selector').val(menu)
         }
