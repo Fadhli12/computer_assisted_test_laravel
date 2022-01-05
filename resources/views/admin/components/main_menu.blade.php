@@ -52,7 +52,7 @@
                         <a href="#"><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
                     </li>--}}
                     <li>
-                        <a href="users_profile_big.html"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+                        <a href="{{route('admin.profile')}}"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
                     </li>
                     <li>
                         <a href="{{route('logout')}}"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>

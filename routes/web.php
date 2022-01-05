@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AccessRoomController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\QuestionGroupController;
 use App\Http\Controllers\Admin\RoomController;
@@ -29,6 +30,8 @@ Route::group(['prefix' => 'admin'],function(){
     Route::get('logout',[Controller::class,'doLogout'])->name('logout');
     Route::group(['middleware' => 'auth'],function (){
         Route::get('',[DashboardController::class,'index'])->name('admin.dashboard');
+        Route::get('profile',[ProfileController::class,'index'])->name('admin.profile');
+        Route::put('profile',[ProfileController::class,'updateProfile']);
         Route::group(['prefix' => 'room'],function (){
             Route::get('',[RoomController::class,'index'])->name('admin.room');
             Route::get('add',[RoomController::class,'add'])->name('admin.room.add');
