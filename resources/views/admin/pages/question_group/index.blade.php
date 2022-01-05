@@ -27,7 +27,7 @@
                             <div class="">
                                 <!--START - Projects list-->
                                 <div class="projects-list">
-                                    @foreach ($data AS $row)
+                                    @forelse ($data AS $row)
                                         <div class="project-box">
                                             <div class="project-head">
                                                 <div class="project-title">
@@ -113,7 +113,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="project-box">
+                                            <div class="project-head">
+                                                <div class="project-title">
+                                                    <h5>
+                                                        No Data Found
+                                                    </h5>
+                                                </div>
+                                                <div class="">
+                                                </div>
+                                            </div>
+                                            <div class="project-info">
+                                            </div>
+                                        </div>
+                                    @endforelse
                                 </div>
                                 <!--END - Projects list-->
                             </div>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuestionGroupRequest;
+use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionGroupRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\QuestionGroup;
 use App\Models\Question;
 use App\Models\TaskSection;
@@ -150,12 +152,8 @@ class QuestionGroupController extends Controller
         return view('admin.pages.question_group.section.questions.index',compact('section','question_group','breadcrumbs'));
     }
 
-    public function createQuestions(Request $request, QuestionGroup $question_group, TaskSection $section){
-        $data = $request->validate([
-            'question' => 'required',
-            'answer' => 'required|array',
-            'value' => 'required'
-        ]);
+    public function createQuestions(StoreQuestionRequest $request, QuestionGroup $question_group, TaskSection $section){
+        $data = $request->validated();
         try {
             DB::beginTransaction();
             $question = $section->questions()->create([
@@ -194,7 +192,7 @@ class QuestionGroupController extends Controller
         return redirect()->back()->with('success','Success Add Quesiton');
     }
 
-    public function updateQuestions(Request $request, QuestionGroup $question_group, TaskSection $section, Question $question){
+    public function updateQuestions(UpdateQuestionRequest $request, QuestionGroup $question_group, TaskSection $section, Question $question){
         $data = $request->validate([
             'question' => 'required',
             'answer' => 'required|array',

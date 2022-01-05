@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 
@@ -22,13 +23,8 @@ class ProfileController extends Controller
         return view('admin.pages.profile',compact('breadcrumbs','user'));
     }
 
-    public function updateProfile(Request $request){
-        $input = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'old_password' => 'nullable|current_password',
-            'password'=> ['required_with:old_password','confirmed','different:old_password',Password::min(8)],
-        ]);
+    public function updateProfile(UpdateProfileRequest $request){
+        $input = $request->validated();
         if (isset($input['password'])){
             $input['password'] = bcrypt($input['password']);
         } else {

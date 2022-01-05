@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Models\QuestionGroup;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -45,12 +47,8 @@ class RoomController extends Controller
         return view('admin.pages.room.add',compact('room','question_group','breadcrumbs'));
     }
 
-    public function create(Request $request){
-        $data = $request->validate([
-            'name' => 'required',
-            'is_active' => 'required|boolean',
-            'question_group' => 'required|array'
-        ]);
+    public function create(StoreRoomRequest $request){
+        $data = $request->validated();
         try {
             DB::beginTransaction();
             $room = Room::create($data);
@@ -83,12 +81,8 @@ class RoomController extends Controller
         return view('admin.pages.room.add',compact('question_group','room','breadcrumbs'));
     }
 
-    public function update(Request $request, Room $room){
-        $data = $request->validate([
-            'name' => 'required',
-            'is_active' => 'required|boolean',
-            'question_group' => 'required|array'
-        ]);
+    public function update(UpdateRoomRequest $request, Room $room){
+        $data = $request->validated();
         try {
             DB::beginTransaction();
             $room->update($data);

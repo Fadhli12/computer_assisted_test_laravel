@@ -40,6 +40,14 @@ Route::group(['prefix' => 'admin'],function(){
             Route::put('{room}',[RoomController::class,'update']);
             Route::delete('{room}',[RoomController::class,'delete']);
         });
+        Route::group(['prefix' => 'access-room'],function (){
+            Route::get('',[AccessRoomController::class,'index'])->name('admin.access-room');
+            Route::get('add',[AccessRoomController::class,'add'])->name('admin.access-room.add');
+            Route::post('add',[AccessRoomController::class,'create']);
+            Route::get('{access_room}',[AccessRoomController::class,'edit'])->name('admin.access-room.edit');
+            Route::put('{access_room}',[AccessRoomController::class,'update']);
+            Route::delete('{access_room}',[AccessRoomController::class,'delete']);
+        });
         Route::group(['prefix' => 'question-group'],function (){
             Route::get('',[QuestionGroupController::class,'index'])->name('admin.question-group');
             Route::get('add',[QuestionGroupController::class,'add'])->name('admin.question-group.add');

@@ -274,8 +274,8 @@
                 </div>
                 <span>Room</span></a>
         </li>
-        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.room')) ? 'active selected' : ''}}">
-            <a href="">
+        <li class="{{\Illuminate\Support\Str::contains(url()->current(),route('admin.access-room')) ? 'active selected' : ''}}">
+            <a href="{{route('admin.access-room')}}">
                 <div class="icon-w">
                     <div class="os-icon os-icon-credit-card"></div>
                 </div>

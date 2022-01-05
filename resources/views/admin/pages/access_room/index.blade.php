@@ -2,11 +2,11 @@
 @section('content')
     <div class="element-wrapper">
         <h6 class="element-header">
-            Room
+            Access Room
         </h6>
         <div class="element-box">
             <h5 class="form-header">
-                Room
+                Access Room
             </h5>
             <div class="">
                 @if (session()->has('success'))
@@ -19,8 +19,8 @@
                 <div class="row pb-3">
                     <div class="col-lg-12 form-inline justify-content-lg-end">
                         <div class="">
-                            <a class="btn btn-sm btn-primary" href="{{route('admin.room.add')}}"><span
-                                    class="os-icon os-icon-plus"></span> Room</a>
+                            <a class="btn btn-sm btn-primary" href="{{route('admin.access-room.add')}}"><span
+                                    class="os-icon os-icon-plus"></span> Access Room</a>
 
                         </div>
                     </div>
@@ -69,12 +69,21 @@
                     <thead>
                     <tr>
                         <th>
-                            Name
+                            Key
                         </th>
                         <th>
-                            Question Group
+                            Type
                         </th>
-                        <th class="text-center">
+                        <th>
+                            Limit Access
+                        </th>
+                        <th>
+                            Valid Until
+                        </th>
+                        <th>
+                            Access Counter
+                        </th>
+                        <th>
                             Status
                         </th>
                         <th class="text-right">
@@ -83,28 +92,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse ($rooms AS $room)
+                    @forelse ($access_rooms AS $access_room)
                         <tr>
-                            <td>{{$room->name}}</td>
+                            <td>{{$access_room->key}}</td>
+                            <td>{{$access_room->type}}</td>
+                            <td>{{$access_room->limit_access}}</td>
+                            <td>{{$access_room->valid_until}}</td>
+                            <td>{{$access_room->access_counter}}</td>
                             <td>
-                                <ul>
-                                    @foreach($room->questionGroups AS $group)
-                                        <li>{{$group->name}} | type :{{$group->type}} | section
-                                            : {{$group->section_ammount}} | total question : {{$group->total_question}}
-                                            | total duration
-                                            : {{$group->section_ammount * $group->duration_per_section}}</li>
-                                    @endforeach
-                                </ul>
+                                {{$access_room->is_active ? 'Active' : 'Not-Active'}}
                             </td>
                             <td>
-                                {{$room->is_active ? 'Active' : 'Not-Active'}}
-                            </td>
-                            <td>
-                                <a href="{{$room->detail_url}}" class="btn btn-primary"><span
+                                <a href="{{$access_room->detail_url}}" class="btn btn-primary"><span
                                         class="os-icon os-icon-edit"></span> Edit</a>
-                                <a href="" class="btn btn-danger delete" data-target="#delete-{{$room->id}}">
+                                <a href="" class="btn btn-danger delete" data-target="#delete-{{$access_room->id}}">
                                     <span class="os-icon os-icon-trash"></span> Delete</a>
-                                <form id="delete-{{$room->id}}" action="{{$room->detail_url}}"
+                                <form id="delete-{{$access_room->id}}" action="{{$access_room->detail_url}}"
                                       method="post">
                                     @csrf
                                     @method('delete')
@@ -113,7 +116,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4">No Data Found</td>
+                            <td colspan="7" class="text-center">No Data Found</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -129,7 +132,7 @@
     <script>
         $('.delete').click(function (e) {
             e.preventDefault();
-            if (confirm('Delete Room ?')) {
+            if (confirm('Delete Access Room ?')) {
                 var target = $(this).data('target')
                 $(target).submit();
             }

@@ -72,10 +72,28 @@ class AccessRoom extends Model
      * @var boolean
      */
     public $timestamps = true;
-
+    const TYPE_LIMITED = 'limited';
+    const TYPE_UNLIMITED = 'unlimited';
     // Scopes...
 
     // Functions ...
+    static function typeAccessRoomForOption(){
+        return [
+            'Limited' => Self::TYPE_LIMITED,
+            'Unlimited' => Self::TYPE_UNLIMITED,
+        ];
+    }
+
+    static function typeAccessRoomGroup(){
+        return [
+            Self::TYPE_LIMITED,
+            Self::TYPE_UNLIMITED,
+        ];
+    }
+
+    public function getDetailUrlAttribute(){
+        return route('admin.access-room.edit',$this->id);
+    }
 
     // Relations ...
     public function room(){
