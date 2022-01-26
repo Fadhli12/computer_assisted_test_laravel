@@ -28,6 +28,7 @@ Route::get('home', function () {return view('home');});
 Route::get('authentication', function () {return view('authentication');});
 Route::get('register', function () {return view('register');});
 Route::get('about-quiz', function () {return view('about-quiz');});
+Route::get('quiz2', function () {return view('quiz2');});
 
 Route::group(['prefix' => 'admin'],function(){
     Route::get('login',[Controller::class,'login'])->name('login');
