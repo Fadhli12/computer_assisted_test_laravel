@@ -7,8 +7,10 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets-quiz')}}/assets/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets-quiz')}}/assets/css/styles.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{asset('assets-quiz')}}/assets/css/materialize.min.css"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{asset('assets-quiz')}}/assets/css/styles.css"
+          media="screen,projection"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <!--Let browser know website is optimized for mobile-->
@@ -16,9 +18,11 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
-        body, h3, a{
+
+        body, h3, a {
             font-family: 'Jost', sans-serif;
         }
+
         #background {
             position: fixed;
             top: 0;
@@ -27,7 +31,7 @@
             height: 100%;
             /*background-color: #FBB03A;*/
 
-            background: linear-gradient(to right,rgba(230, 243, 255, 0.8), rgba(162, 223, 242, 0.7)), url("../assets-quiz/assets/images/bg_0.png") ;
+            background: linear-gradient(to right, rgba(230, 243, 255, 0.8), rgba(162, 223, 242, 0.7)), url("../assets-quiz/assets/images/bg_0.png");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             z-index: 1;
@@ -41,6 +45,7 @@
             font-weight: bold;
             font-family: Arial, sans-serif;
         }
+
         .button {
             -webkit-border-radius: 28px;
             -moz-border-radius: 28px;
@@ -64,7 +69,8 @@
     <div class="navbar-fixed">
         <nav class="z-depth-0 white">
             <div class="nav-wrapper" style="padding: 10px 50px">
-                <a href="#!" class="brand-logo black-text"><img src="{{asset('assets-quiz')}}/assets/images/tes.png" alt="logo" width="180px"></a>
+                <a href="#!" class="brand-logo black-text"><img src="{{asset('assets-quiz')}}/assets/images/tes.png"
+                                                                alt="logo" width="180px"></a>
             </div>
         </nav>
     </div>
@@ -73,118 +79,40 @@
     <div id="content">
         <div class="row">
             <div class="col offset-m6 m6 offset-s1 s10">
-                <h5>Pertanyaan yang paling sering ditanyakan</h5>
-                <label>Silahkan <a href="https://wa.me/685255857211/?text=Saya%20ingin%20bertanya%20tentang%20superior`" target="_blank">hubungi kami</a> jika anda tidak menemukan jawaban dari pertanyaan anda.</label>
-                <ul class="collapsible popout">
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">First</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Second</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header">Third</div>
-                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                    </li>
-                </ul>
+                <h5>Deskripsi Quiz</h5>
+                @foreach ($access_room->room->questionGroups AS $group)
+                    <ul class="collapsible popout">
+                        <li>
+                            <div class="collapsible-header">{{$group->name}}</div>
+                            <div class="collapsible-body">
+                                <p>{{$group->group_type}}</p>
+                                <p>Type : {{$group->type_str}}</p>
+                                <p>Jumlah Soal : {{$group->total_question}}</p>
+                                <p>Lama Waktu Pengerjaan : {{$group->duration_per_section * $group->section_ammount}}
+                                    Menit</p>
+                            </div>
+                        </li>
+                    </ul>
+                @endforeach
+                <form action="{{url()->current()}}" method="post">
+                    @csrf
+                    <button type="submit" class="button modal-trigger">
+                        Mulai Quiz
+                    </button>
+                </form>
             </div>
         </div>
 
     </div>
     <div id="background" class="hide-on-med-and-down">
         <div class="row" style="margin-top: 50%; margin-bottom: auto; padding-left: 50px">
-            <h3>Pertanyaan Seputar Quiz di <span style="font-weight: 900">Superior</span></h3>
+            <h3>SuperiorSulbar</span></h3>
+            <h4>Nama : {{$participant->name}} </h4>
+            <h4>Nomor Telepon : {{$participant->phone}} </h4>
+            <h4>Email : {{$participant->email}} </h4>
         </div>
     </div>
 </main>
-
-
 
 
 <!--JavaScript at end of body for optimized loading-->
@@ -193,7 +121,7 @@
 
 <script>
     var data =
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.collapsible').collapsible();
         });
 </script>

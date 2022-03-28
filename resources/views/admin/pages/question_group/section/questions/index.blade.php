@@ -42,7 +42,7 @@
                                                             <span
                                                                 class="btn btn-success text-capitalize">{{$answer->choice}}</span>
                                                                 <br>
-                                                                @if ($question_group->type == \App\Models\QuestionGroup::TYPE_NORMAL)
+                                                                @if ($question_group->type == \App\Models\QuestionGroup::TYPE_KECERMATAN)
                                                                     <div class="form-check">
                                                                         <input class="form-check-input"
                                                                                value="{{$answer->choice}}"
@@ -53,7 +53,7 @@
                                                                                for="answer-{{$question->id}}-{{$answer->id}}">
                                                                         </label>
                                                                     </div>
-                                                                @elseif ($question_group->type == \App\Models\QuestionGroup::TYPE_MULTI_JAWABAN)
+                                                                @elseif ($question_group->type == \App\Models\QuestionGroup::TYPE_KECERDASAN)
                                                                     <div class="form-check">
                                                                         <input class="form-check-input"
                                                                                value="{{$answer->choice}}"
@@ -162,7 +162,7 @@
                                                                 <span
                                                                     class="btn btn-success text-capitalize">{{$i}}</span>
                                                                 <br>
-                                                                @if ($question_group->type == \App\Models\QuestionGroup::TYPE_NORMAL)
+                                                                @if ($question_group->type == \App\Models\QuestionGroup::TYPE_KECERMATAN)
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" value="{{$i}}"
                                                                                type="radio" name="value"
@@ -172,7 +172,7 @@
                                                                                for="answer-{{$i}}">
                                                                         </label>
                                                                     </div>
-                                                                @elseif ($question_group->type == \App\Models\QuestionGroup::TYPE_MULTI_JAWABAN)
+                                                                @elseif ($question_group->type == \App\Models\QuestionGroup::TYPE_KECERDASAN)
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" value="{{$i}}"
                                                                                type="checkbox" name="value[{{$x}}]"

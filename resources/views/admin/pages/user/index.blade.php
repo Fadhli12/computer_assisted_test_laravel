@@ -103,6 +103,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                {{$users->links()}}
                 <!--------------------
                 END - Basic Table
                 -------------------->

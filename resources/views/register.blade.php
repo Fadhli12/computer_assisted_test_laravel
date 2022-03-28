@@ -75,27 +75,27 @@
             <div class="col offset-m6 m6 offset-s1 s10">
                 <h5>Lengkapi Data Kamu Disini !</h5>
 
-                <form class="col offset-m3 m6 s12">
+                <form class="col offset-m3 m6 s12" action="{{url()->current()}}" method="post">
+                    @csrf
                     <div class="row">
                         <div class="input-field col m12 s12">
-                            <input id="nama" type="text" class="validate">
-                            <label for="nama">Nama </label>
+                            <input name="name" id="nama" type="text" class="validate" required>
+                            <label for="name">Nama *</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col m12 s12">
-                            <input id="email" type="email" class="validate">
+                            <input name="phone" id="phone" type="text" class="validate" required>
+                            <label for="phone">Nomor Telepon *</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <input name="email" id="email" type="email" class="validate">
                             <label for="email">Email</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="input-field col m12 s12">
-                            <input id="password" type="password" class="validate">
-                            <label for="password">Password</label>
-                        </div>
-                    </div>
-                    <a class="button modal-trigger" href="">DAFTAR SEKARANG</a>
-
+                    <button class="button modal-trigger" type="submit">DAFTAR SEKARANG</button>
                 </form>
             </div>
         </div>

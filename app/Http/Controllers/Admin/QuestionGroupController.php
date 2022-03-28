@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 use App\Models\QuestionGroup;
 use App\Models\TaskSection;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -54,6 +55,7 @@ class QuestionGroupController extends Controller
         $data = $request->validated();
         try {
             DB::beginTransaction();
+            $data['is_skippable'] = QuestionGroup::canSkipQuestion($data['type']);
             $question_groups = QuestionGroup::create($data);
             for ($section = 1; $section <= $data['section_ammount']; $section++) {
                 $question_groups->sections()->create([
@@ -103,6 +105,7 @@ class QuestionGroupController extends Controller
                     $question_group->sections()->where('section', '>', $data['section_ammount'])->delete();
                 }
             }
+            $data['is_skippable'] = QuestionGroup::canSkipQuestion($data['type']);
             $question_group->update($data);
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -115,9 +118,22 @@ class QuestionGroupController extends Controller
 
     public function delete(QuestionGroup $question_group)
     {
-        $question_group->delete();
-        $message = 'Delete Question Group Success';
-        return redirect()->route('admin.question-group')->with('success', $message);
+        DB::beginTransaction();
+        try {
+            foreach ($question_group->sections AS $section){
+                $section->questions()->delete();
+            };
+            $question_group->sections()->delete();
+            $question_group->delete();
+            $message = 'Delete Question Group Success';
+            $status = 'success';
+        } catch (\Exception $exception){
+            DB::rollBack();
+            $status = 'warning';
+            $message = 'Failed Delete Question Group, '.$exception->getMessage();
+        }
+        DB::commit();
+        return redirect()->route('admin.question-group')->with($status, $message);
     }
 
     public function section(QuestionGroup $question_group)
@@ -177,11 +193,11 @@ class QuestionGroupController extends Controller
                     'question_id' => $question->id
                 ]);
             }
-            if ($question_group->type === QuestionGroup::TYPE_NORMAL) {
+            if ($question_group->type === QuestionGroup::TYPE_KECERMATAN) {
                 $question->answers()->where('choice', $data['value'])->update([
                     'value' => 1
                 ]);
-            } else if ($question_group->type === QuestionGroup::TYPE_MULTI_JAWABAN) {
+            } else if ($question_group->type === QuestionGroup::TYPE_KECERDASAN) {
                 $question->answers()->whereIn('choice', $data['value'])->update([
                     'value' => 1
                 ]);
@@ -223,7 +239,7 @@ class QuestionGroupController extends Controller
                         'question_id' => $question->id
                     ]);
             }
-            if ($question_group->type === QuestionGroup::TYPE_NORMAL) {
+            if ($question_group->type === QuestionGroup::TYPE_KECERMATAN) {
                 $question->answers()->where('choice', $data['value'])->update([
                     'value' => 1
                 ]);

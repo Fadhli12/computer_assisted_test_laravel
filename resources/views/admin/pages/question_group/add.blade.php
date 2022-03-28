@@ -32,6 +32,20 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for=""> Group Description</label>
+                    <textarea class="form-control"
+                           name="group_type"
+                           placeholder="Enter Group Description"
+                               required>{{$question_group->group_type ?? old('group_type')}}</textarea>
+                    <div class="help-block form-text with-errors form-control-feedback">
+                        <ul class="list-unstyled">
+                            @foreach ($errors->get('group_type') AS $err)
+                                <li>{{$err}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for=""> Type</label>
                     <select name="type" class="form-control" required>
                         @foreach ($types AS $key => $type)
@@ -46,7 +60,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="section_container">
                     <label for="">Section</label>
                     <select name="section_ammount" class="form-control" required>
                         @for ($i = 1; $i <= 5; $i++)
@@ -62,7 +76,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="">Question Per Section</label>
+                    <label for="">Question <span class="section_context">Per Section</span></label>
                     <input name="question_ammount_per_section" value="{{$question_group->question_ammount_per_section ?? old('question_ammount_per_section')}}" placeholder="Example : 100" type="number" class="form-control" required>
                     <div class="help-block form-text with-errors form-control-feedback">
                         <ul class="list-unstyled">
@@ -73,7 +87,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="">Duration Per Section (minutes)</label>
+                    <label for="">Duration <span class="section_context">Per Section</span> (minutes)</label>
                     <input name="duration_per_section" value="{{$question_group->duration_per_section ?? old('duration_per_section')}}" placeholder="Example : 60" type="number" class="form-control" required>
                     <div class="help-block form-text with-errors form-control-feedback">
                         <ul class="list-unstyled">
@@ -83,24 +97,24 @@
                         </ul>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="">Skippable ?</label>
-                    <div class="">
-                        <div class="form-check">
-                            <label class="form-check-label"><input {{$question_group->is_skippable ? 'checked' : ''}} class="form-check-input" name="is_skippable" type="radio" value="1">Yes</label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label"><input {{!$question_group->is_skippable ? 'checked' : ''}} class="form-check-input" name="is_skippable" type="radio" value="0">No</label>
-                        </div>
-                    </div>
-                    <div class="help-block form-text with-errors form-control-feedback">
-                        <ul class="list-unstyled">
-                            @foreach ($errors->get('is_skippable') AS $err)
-                                <li>{{$err}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+{{--                <div class="form-group">--}}
+{{--                    <label class="">Skippable ?</label>--}}
+{{--                    <div class="">--}}
+{{--                        <div class="form-check">--}}
+{{--                            <label class="form-check-label"><input {{$question_group->is_skippable ? 'checked' : ''}} class="form-check-input" name="is_skippable" type="radio" value="1">Yes</label>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-check">--}}
+{{--                            <label class="form-check-label"><input {{!$question_group->is_skippable ? 'checked' : ''}} class="form-check-input" name="is_skippable" type="radio" value="0">No</label>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="help-block form-text with-errors form-control-feedback">--}}
+{{--                        <ul class="list-unstyled">--}}
+{{--                            @foreach ($errors->get('is_skippable') AS $err)--}}
+{{--                                <li>{{$err}}</li>--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div class="form-buttons-w">
                     <a href="{{route('admin.question-group')}}" class="btn btn-dark">Kembali</a>
                     <button class="btn btn-primary" type="submit"> Submit</button>
@@ -109,3 +123,23 @@
         </div>
     </div>
 @endsection
+@push('add-script')
+    <script>
+        var type = $('[name=type]').val();
+        showSection(type);
+
+        function showSection(type){
+            if (type === '{{\App\Models\QuestionGroup::TYPE_KECERMATAN}}'){
+                $('#section_container, .section_context').show()
+            } else {
+                $('#section_container, .section_context').hide()
+                $('[name=section_ammount]').val(1);
+            }
+        }
+
+        $('[name=type]').change(function (e){
+            e.preventDefault();
+            showSection($(this).val());
+        })
+    </script>
+@endpush

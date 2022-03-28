@@ -14,6 +14,13 @@
                             {{session('success')}}
                         </div>
                     @endif
+                    @if (session()->has('warning'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                                    aria-hidden="true"> ×</span></button>
+                            {{session('warning')}}
+                        </div>
+                    @endif
                     <div class="row pb-3">
                         <div class="col-lg-12 form-inline justify-content-lg-end">
                             <div class="">
