@@ -146,16 +146,15 @@ class Controller extends BaseController
         }
         if ($question_group){
             $duration = $question_group->duration_per_section;
-            $data_quiz = $question_group->sections->map(function ($value,$index)use($duration){
+            $data_quiz = $question_group->sections->map(function ($value,$index)use($duration,$question_group){
                 return [
                     'section' => $index,
                     'status' => $index == 0 ? 'start' : 'waiting',
                     'start' => $index == 0 ? now() : now()->addMinutes(($index ?? 1) * $duration),
                     'end' => $index == 0 ? now()->addMinutes($duration) : now()->addMinutes((($index ?? 1)+1) * $duration),
-                    'questions' => $value->questions->map(function ($value,$index){
+                    'questions' => $value->questions->map(function ($value,$index) use ($question_group){
                         $answer = $value->answers()->where('value','>',0)->get();
-                        if ($answer->count() == 1) {
-                            $answer = $answer[0];
+                        if ($question_group->type === QuestionGroup::TYPE_KEPRIBADIAN){
                             return [
                                 'index' => $index,
                                 'question' => $value->question,
@@ -163,30 +162,51 @@ class Controller extends BaseController
                                     return [
                                         'index' => $index,
                                         'answer' => $value->answer,
-                                        'choice' => $value->choice
-                                    ];
-                                }),
-                                'correct_choice' => $answer->choice,
-                                'correct_answer' => $answer->answer,
-                                'user_answer' => null
-                            ];
-                        } else {
-                            return [
-                                'index' => $index,
-                                'question' => $value->question,
-                                'answers' => $value->answers->map(function ($value, $index) {
-                                    return [
-                                        'index' => $index,
-                                        'answer' => $value->answer,
-                                        'choice' => $value->choice
+                                        'choice' => $value->choice,
+                                        'value' => $value->value
                                     ];
                                 }),
                                 'correct_choice' => $answer->pluck('choice'),
-                                'correct_answer' => $answer->map(function ($value){
+                                'correct_answer' => $answer->map(function ($value) {
                                     return $value->answer;
                                 }),
-                                'user_answer' => []
+                                'user_answer' => null
                             ];
+                        } else {
+                            if ($answer->count() == 1) {
+                                $answer = $answer[0];
+                                return [
+                                    'index' => $index,
+                                    'question' => $value->question,
+                                    'answers' => $value->answers->map(function ($value, $index) {
+                                        return [
+                                            'index' => $index,
+                                            'answer' => $value->answer,
+                                            'choice' => $value->choice
+                                        ];
+                                    }),
+                                    'correct_choice' => $answer->choice,
+                                    'correct_answer' => $answer->answer,
+                                    'user_answer' => null
+                                ];
+                            } else {
+                                return [
+                                    'index' => $index,
+                                    'question' => $value->question,
+                                    'answers' => $value->answers->map(function ($value, $index) {
+                                        return [
+                                            'index' => $index,
+                                            'answer' => $value->answer,
+                                            'choice' => $value->choice
+                                        ];
+                                    }),
+                                    'correct_choice' => $answer->pluck('choice'),
+                                    'correct_answer' => $answer->map(function ($value) {
+                                        return $value->answer;
+                                    }),
+                                    'user_answer' => []
+                                ];
+                            }
                         }
                     }),
                 ];
