@@ -50,15 +50,18 @@
             -webkit-border-radius: 28px;
             -moz-border-radius: 28px;
             border-radius: 28px;
-            color: #000000;
+            color: white;
             font-size: 20px;
             padding: 20px;
             border: solid #E6F3FF 2px;
             text-decoration: none;
+            background-color: teal;
         }
 
         .button:hover {
             background: #a3dcff;
+            color: black;
+            transition: background-color .2s ease-in-out;
             text-decoration: none;
         }
     </style>
@@ -79,37 +82,49 @@
     <div id="content">
         <div class="row">
             <div class="col offset-m6 m6 offset-s1 s10">
-                <h5>Deskripsi Quiz</h5>
-                @foreach ($access_room->room->questionGroups AS $group)
-                    <ul class="collapsible popout">
-                        <li>
-                            <div class="collapsible-header">{{$group->name}}</div>
-                            <div class="collapsible-body">
-                                <p>{{$group->group_type}}</p>
-                                <p>Type : {{$group->type_str}}</p>
-                                <p>Jumlah Soal : {{$group->total_question}}</p>
-                                <p>Lama Waktu Pengerjaan : {{$group->duration_per_section * $group->section_ammount}}
-                                    Menit</p>
-                            </div>
-                        </li>
-                    </ul>
-                @endforeach
-                <form action="{{url()->current()}}" method="post">
-                    @csrf
-                    <button type="submit" class="button modal-trigger">
-                        Mulai Quiz
-                    </button>
-                </form>
+                <div class="card-panel z-depth-0">
+                    <div class="row">
+                        <div class="col m4 s12" style="margin-bottom: 20px; border: solid 1px grey; border-radius: 20px; padding:5px 0">
+                            <label class="black-text">Nama : {{$participant->name}} </label><br>
+                            <label class="black-text">Nomor Telepon : {{$participant->phone}} </label><br>
+                            <label class="black-text">Email : {{$participant->email}} </label><br>
+                        </div>
+                        <div class="col m8 s12">
+                            <form action="{{url()->current()}}" method="post">
+                                @csrf
+                                <button type="submit" class="button modal-trigger" style="cursor: pointer; width: 100%">
+                                    <h4 style="margin: 0">Mulai Quiz</h4>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-panel grey lighten-4 z-depth-0" style="border-radius: 20px">
+                    <h6>DESKRIPSI QUIZ</h6> <br>
+                    @foreach ($access_room->room->questionGroups AS $group)
+                        <ul class="collapsible popout">
+                            <li class="active z-depth-0">
+                                <div class="collapsible-header"><i class="material-icons">event_note</i> {{$group->name}} </div>
+                                <div class="collapsible-body white" style="text-align: left!important;">
+                                    <i>{{$group->group_type}}</i>
+                                    <p>Type : {{$group->type_str}}</p>
+                                    <p>Jumlah Soal : {{$group->total_question}}</p>
+                                    <p>Lama Waktu Pengerjaan : {{$group->duration_per_section * $group->section_ammount}}
+                                        Menit</p>
+                                </div>
+                            </li>
+                        </ul>
+                    @endforeach
+                </div>
             </div>
         </div>
-
     </div>
     <div id="background" class="hide-on-med-and-down">
-        <div class="row" style="margin-top: 50%; margin-bottom: auto; padding-left: 50px">
-            <h3>SuperiorSulbar</span></h3>
-            <h4>Nama : {{$participant->name}} </h4>
-            <h4>Nomor Telepon : {{$participant->phone}} </h4>
-            <h4>Email : {{$participant->email}} </h4>
+        <div class="row" style="margin-top: 10%; margin-bottom: auto; padding-left: 50px">
+{{--            <h3>SuperiorSulbar</h3>--}}
+{{--            <h4>Nama : {{$participant->name}} </h4>--}}
+{{--            <h4>Nomor Telepon : {{$participant->phone}} </h4>--}}
+{{--            <h4>Email : {{$participant->email}} </h4>--}}
         </div>
     </div>
 </main>
