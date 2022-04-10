@@ -39,14 +39,15 @@
             font-size: 2rem;
             border-radius: 50px;
             padding: 20px 0 20px 20px;
+            border-color: transparent;
         }
 
         span.navigate-header .timer {
             font-size: 3rem;
             background-color: white;
             padding: 20px;
-            border-radius: 0;
-            border: solid 2px transparent;
+            border-radius: 50px;
+            border: none;
         }
         .hide {
             display: none
@@ -96,18 +97,18 @@
                                          data-question="{{$question_index}}"
                                          data-section="{{$section_index}}"
                                          class="{{$question_index > 0 ? 'hide' : ''}}">
-                                        <div class="row  light-blue lighten-5">
+                                        <div class="row light-blue lighten-5">
                                             <div class="col m4">
                                                 <span class="navigate-header">
                     {{--                        <span class="number">Waktu Pengerjaan</span>--}}
-                                            <span class="timer pulse red lighten-4">
-                                                <span id="minutes">00</span>:<span
-                                                        id="seconds">00</span></span>
-                                        </span>
+                                                    <span class="timer pulse red lighten-4">
+                                                        <span id="minutes">00</span>:<span
+                                                                id="seconds">00</span></span>
+                                                </span>
 
                                             </div>
                                             <div class="col m6">
-                                                <h6 class="grey-text text-darken-2" STYLE="margin-top: 25px">
+                                                <h6 class="grey-text text-darken-2" style="margin-top: 25px">
                                                     <b>SOAL KE-{{$loop->iteration}} DARI 10 PERTANYAAN</b>
                                                 </h6>
                                             </div>
@@ -239,16 +240,16 @@
         localStorage.setItem(quiz_name, JSON.stringify(data_quiz));
         if (data_quiz.length == count) {
             let data_final = JSON.parse(localStorage.getItem(quiz_name));
-            {{--$.post('{{route('save-progress')}}', {--}}
-            {{--    _token: '{{csrf_token()}}',--}}
-            {{--    data: data_final--}}
-            {{--}).then(function () {--}}
-            {{--    location.reload();--}}
-            {{--}, function (er) {--}}
-            {{--    alert('session ended with error')--}}
-            {{--    console.log(er)--}}
-            {{--    location.href = '{{route('home')}}'--}}
-            {{--})--}}
+            $.post('{{route('save-progress')}}', {
+                _token: '{{csrf_token()}}',
+                data: data_final
+            }).then(function () {
+                location.reload();
+            }, function (er) {
+                alert('session ended with error')
+                console.log(er)
+                location.href = '{{route('home')}}'
+            })
         }
         console.log('ini data final', JSON.parse(localStorage.getItem(quiz_name)));
     }

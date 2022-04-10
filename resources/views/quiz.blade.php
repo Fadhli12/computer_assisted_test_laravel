@@ -34,7 +34,7 @@
         }
         span.navigate-header .timer{
             font-size: 3rem;
-            background-color: white; padding: 20px; border-radius: 50px; border: solid 2px lightgrey;
+            background-color: white; padding: 20px; border-radius: 50px; border: none;
         }
     </style>
 </head>
