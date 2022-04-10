@@ -45,8 +45,8 @@
             font-size: 3rem;
             background-color: white;
             padding: 20px;
-            border-radius: 50px;
-            border: solid 2px lightgrey;
+            border-radius: 0;
+            border: solid 2px transparent;
         }
         .hide {
             display: none
@@ -86,14 +86,8 @@
         <!-- pertanyaan -->
         <div class="col m8 s12">
             <div id="quiz1" class="section scrollspy">
-                <div class="card-panel transparent z-depth-0 center animate__animated animate__fadeIn animate__slow"
-                     style="height: max-content">
-                    <span class="navigate-header">
-{{--                        <span class="number">Waktu Pengerjaan</span>--}}
-                        <span class="timer pulse red lighten-4">
-                            <span id="minutes">00</span>:<span
-                                id="seconds">00</span></span>
-                    </span>
+                <div class="card-panel transparent z-depth-0 center animate__animated animate__fadeIn animate__slow" style="height: max-content">
+
                     <div>
                         @foreach($question_group->sections AS $section_index => $section)
                             <div id="section-{{$section_index}}" class="{{$section_index > 0 ? 'hide' : ''}}">
@@ -102,32 +96,57 @@
                                          data-question="{{$question_index}}"
                                          data-section="{{$section_index}}"
                                          class="{{$question_index > 0 ? 'hide' : ''}}">
-                                        <h6 class="grey-text text-darken-2" style="margin-top: 2rem">
-                                            <b>{{$loop->iteration}}</b>
-                                        </h6>
+                                        <div class="row  light-blue lighten-5">
+                                            <div class="col m4">
+                                                <span class="navigate-header">
+                    {{--                        <span class="number">Waktu Pengerjaan</span>--}}
+                                            <span class="timer pulse red lighten-4">
+                                                <span id="minutes">00</span>:<span
+                                                        id="seconds">00</span></span>
+                                        </span>
+
+                                            </div>
+                                            <div class="col m6">
+                                                <h6 class="grey-text text-darken-2" STYLE="margin-top: 25px">
+                                                    <b>SOAL KE-{{$loop->iteration}} DARI 10 PERTANYAAN</b>
+                                                </h6>
+                                            </div>
+                                        </div>
 
                                         <div class="row no-margin">
-                                            {!! $question->question !!}
+                                            <div class="card-panel z-depth-0" style="border: solid 1px grey">
+                                                <h5>{!! $question->question !!}</h5>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <form action="#">
-                                                @foreach($question->answers AS $answer)
-                                                <p>
-                                                    <label>
-                                                        <input value="{{$answer->choice}}" data-section="{{$section_index}}" data-question="{{$question_index}}" name="quest-{{$section_index}}-{{$question_index}}" type="checkbox"/>
-                                                        <span>
-                                                            <span class="option">{{strtoupper($answer->choice)}}</span>
-                                                            {!! $answer->answer !!}
-                                                        </span>
-                                                    </label>
-                                                </p>
-                                                @endforeach
-                                            </form>
+                                        <div class="row" style="text-align: left!important;">
+                                            <div class="card-panel z-depth-0" style="border: solid 1px grey">
+                                                <div class="row">
+                                                    <form action="#">
+                                                        @foreach($question->answers AS $answer)
+                                                            <div class="col m12 s12" style="display: flex">
+                                                                <p>
+                                                                    <label>
+                                                                        <input value="{{$answer->choice}}" data-section="{{$section_index}}" data-question="{{$question_index}}" name="quest-{{$section_index}}-{{$question_index}}" type="checkbox"/>
+                                                                        <span class="option">{{strtoupper($answer->choice)}}</span>
+                                                                    </label>
+                                                                    <p style="margin-left: 50px">{!! $answer->answer !!}</p>
+                                                                </p>
+                                                            </div>
+                                                        @endforeach
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="center">
-                                            <button class="btn btn-flat btn-lg col m4 s12 prev" data-index="-1">SEBELUMNYA</button>
-                                            <button class="btn btn-lg col m4 s12 answers">JAWAB</button>
-                                            <button class="btn btn-flat btn-lg col m4 s12 next" data-index="1">SELANJUTNYA</button>
+                                            <div class="col m6 s12">
+                                                <div class="row">
+                                                    <button class="btn grey darken-3 btn-lg prev" data-index="-1">SEBELUMNYA</button>
+                                                    <button class="btn grey darken-3 btn-lg next" data-index="1">SELANJUTNYA</button>
+                                                </div>
+                                            </div>
+                                            <div class="col m6 s12">
+                                                <button class="btn red darken-3 btn-lg answers col m12 s12">JAWAB</button>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -139,7 +158,7 @@
         </div>
         <!-- jawaban -->
         <div class="col m4 s12">
-            <div class="card-panel no-padding z-depth-0" id="answer-container">
+            <div class="card-panel transparent no-padding z-depth-0" id="answer-container">
                 {{--@for ($i =1; $i <= 100; $i++)
                     <a href="#" class="btn grey lighten-3 grey-text text-darken-2 hoverable waves-light waves-effect"
                        style="margin: 5px; line-height: 1.5; height: 50px; width: 50px"><span
@@ -220,16 +239,16 @@
         localStorage.setItem(quiz_name, JSON.stringify(data_quiz));
         if (data_quiz.length == count) {
             let data_final = JSON.parse(localStorage.getItem(quiz_name));
-            $.post('{{route('save-progress')}}', {
-                _token: '{{csrf_token()}}',
-                data: data_final
-            }).then(function () {
-                location.reload();
-            }, function (er) {
-                alert('session ended with error')
-                console.log(er)
-                location.href = '{{route('home')}}'
-            })
+            {{--$.post('{{route('save-progress')}}', {--}}
+            {{--    _token: '{{csrf_token()}}',--}}
+            {{--    data: data_final--}}
+            {{--}).then(function () {--}}
+            {{--    location.reload();--}}
+            {{--}, function (er) {--}}
+            {{--    alert('session ended with error')--}}
+            {{--    console.log(er)--}}
+            {{--    location.href = '{{route('home')}}'--}}
+            {{--})--}}
         }
         console.log('ini data final', JSON.parse(localStorage.getItem(quiz_name)));
     }
@@ -308,8 +327,8 @@
                 var content = '<a href="#" class="btn grey lighten-3 grey-text text-darken-2 hoverable waves-light waves-effect show-question" ' +
                     'data-question="' + index2 +'"'+
                     'data-section="' + index +'"'+
-                    'style="margin: 5px; line-height: 1.5; height: 50px; width: 50px"><span ' +
-                    'class="white">'+(index2 + 1)+'</span><br><span style="font-weight: 900">'+answer+'</span></a>'
+                    'style="margin: 5px; line-height: 1.5; height: 50px; width: 80px"><span ' +
+                    'class="white" style="border-radius: 50%; border: solid 1px darkgrey; padding: 0 5px">'+(index2 + 1)+'</span><br><span style="font-weight: 900; font-size: 10px; padding: 0">'+answer+'</span></a>'
                 $('#answer-container').append(content);
             })
         })
