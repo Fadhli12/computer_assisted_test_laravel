@@ -32,7 +32,7 @@ class StoreQuestionGroupRequest extends FormRequest
             'section_ammount' => 'required|numeric',
             'question_ammount_per_section' => 'required|numeric',
             'duration_per_section' => 'required|numeric',
-            'is_skippable' => 'required|boolean',
+//            'is_skippable' => 'required|boolean',
         ];
     }
 }

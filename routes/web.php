@@ -30,6 +30,8 @@ Route::post('register', [Controller::class, 'submitRegister']);
 Route::get('about-quiz', [Controller::class, 'aboutQuiz'])->name('about-quiz');
 Route::post('about-quiz', [Controller::class, 'startQuiz']);
 Route::get('quiz', [Controller::class, 'quiz'])->name('quiz');
+Route::get('quiz2', function () {return view('quiz2');});
+Route::post('save-progress',[Controller::class,'saveProgress'])->name('save-progress');
 Route::get('authentication', function () {
     return view('authentication');
 });

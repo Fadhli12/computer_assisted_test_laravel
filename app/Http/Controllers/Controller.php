@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\AccessRoom;
 use App\Models\Participant;
+use App\Models\QuestionGroup;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
 {
@@ -28,7 +30,9 @@ class Controller extends BaseController
         $data = $request->validate([
             'key' => 'required'
         ]);
-        $access_room = AccessRoom::where('key', $data['key'])->where('is_active',true)->first();
+        if (!$access_room = AccessRoom::where('key', $data['key'])->where('is_active',true)->first()){
+            return redirect()->route('home');
+        }
         session(['access_room_id' => $access_room->id]);
         return redirect()->route('register');
     }
@@ -108,10 +112,10 @@ class Controller extends BaseController
                 'room' => $room
             ];
             $progress = json_encode($progress);
-            session(['progress' => $progress]);
             DB::table('participant_progress_temp')->insert([
                 'token_id' => session('token_id'),
-                'progress' => $progress
+                'progress' => $progress,
+                'created_at' => now(),
             ]);
             return redirect()->route('quiz');
         }
@@ -123,22 +127,121 @@ class Controller extends BaseController
 
     public function quiz()
     {
-        $room = [
-            3 => [
-                'start_time' => "2021-12-28 15:00",
-                'end_time' => "2021-12-28 20:00",
-                'status' => 'start'
-            ],
-            4 => [
-                'start_time' => null,
-                'end_time' => null,
-                'status' => 'waiting'
-            ]
-        ];
-//        foreach ($room AS $key => $value){
-//            if ($value['start_time'] <= date("Y-m-d H:i:s") && $value['end_time'] )
-//        }
-        return view('quiz', compact('room'));
+        $token_id = session('token_id');
+        if (!$token_id){
+            return redirect()->route('home');
+        }
+        $data = DB::table('participant_progress_temp')->where('token_id',$token_id)->first();
+        $question_group = null;
+        if ($data){
+            $progress = json_decode($data->progress);
+            if ($progress->status == 'start') {
+                foreach ($progress->room as $room_id => $value) {
+                    if ($value->status == 'start') {
+                        $question_group = QuestionGroup::with('sections.questions.answers')->find($room_id);
+                        session(['current_room_id' => $room_id]);
+                    }
+                }
+            }
+        }
+        if ($question_group){
+            $duration = $question_group->duration_per_section;
+            $data_quiz = $question_group->sections->map(function ($value,$index)use($duration,$question_group){
+                return [
+                    'section' => $index,
+                    'status' => $index == 0 ? 'start' : 'waiting',
+                    'start' => $index == 0 ? now() : now()->addMinutes(($index ?? 1) * $duration),
+                    'end' => $index == 0 ? now()->addMinutes($duration) : now()->addMinutes((($index ?? 1)+1) * $duration),
+                    'questions' => $value->questions->map(function ($value,$index) use ($question_group){
+                        $answer = $value->answers()->where('value','>',0)->get();
+                        if ($question_group->type === QuestionGroup::TYPE_KEPRIBADIAN){
+                            return [
+                                'index' => $index,
+                                'question' => $value->question,
+                                'answers' => $value->answers->map(function ($value, $index) {
+                                    return [
+                                        'index' => $index,
+                                        'answer' => $value->answer,
+                                        'choice' => $value->choice,
+                                        'value' => $value->value
+                                    ];
+                                }),
+                                'correct_choice' => $answer->pluck('choice'),
+                                'correct_answer' => $answer->map(function ($value) {
+                                    return $value->answer;
+                                }),
+                                'user_answer' => null
+                            ];
+                        } else {
+                            if ($answer->count() == 1) {
+                                $answer = $answer[0];
+                                return [
+                                    'index' => $index,
+                                    'question' => $value->question,
+                                    'answers' => $value->answers->map(function ($value, $index) {
+                                        return [
+                                            'index' => $index,
+                                            'answer' => $value->answer,
+                                            'choice' => $value->choice
+                                        ];
+                                    }),
+                                    'correct_choice' => $answer->choice,
+                                    'correct_answer' => $answer->answer,
+                                    'user_answer' => null
+                                ];
+                            } else {
+                                return [
+                                    'index' => $index,
+                                    'question' => $value->question,
+                                    'answers' => $value->answers->map(function ($value, $index) {
+                                        return [
+                                            'index' => $index,
+                                            'answer' => $value->answer,
+                                            'choice' => $value->choice
+                                        ];
+                                    }),
+                                    'correct_choice' => $answer->pluck('choice'),
+                                    'correct_answer' => $answer->map(function ($value) {
+                                        return $value->answer;
+                                    }),
+                                    'user_answer' => []
+                                ];
+                            }
+                        }
+                    }),
+                ];
+            });
+            return view($question_group->type, compact('question_group','data_quiz'));
+        }
+        $progress->status = 'end';
+        DB::table('participant_progress_temp')->where('token_id',$token_id)->update([
+            'progress' =>  json_encode($progress)
+        ]);
+        dd($progress);
+    }
+
+    public function saveProgress(Request $request){
+        $input = $request->validate([
+            'data' => 'required'
+        ]);
+        if ($token_id = session('token_id')){
+            if ($data = DB::table('participant_progress_temp')->where('token_id',$token_id)->first()){
+                $room_id = session('current_room_id');
+                $progress = json_decode($data->progress);
+                $progress->room->{$room_id}->progress = $input['data'];
+                $progress->room->{$room_id}->status = 'end';
+                DB::table('participant_progress_temp')->where('token_id',$token_id)->update([
+                    'progress' => json_encode($progress)
+                ]);
+                return response()->json([
+                    "message" => 'success save progress'
+                ]);
+            }
+        }
+        session()->forget([
+            'access_room_id','token_id'
+        ]);
+        return response()->json()->setStatusCode(Response::HTTP_FORBIDDEN);
     }
 
     public function login()

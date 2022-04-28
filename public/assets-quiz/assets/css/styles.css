@@ -47,7 +47,7 @@ main {
 
 span.option{
     font-size: 20px!important;
-    line-height: 50px!important;
+    /*line-height: 50px!important;*/
     color: black!important;
     position: absolute;
     left: 18px;

@@ -74,26 +74,32 @@ class QuestionGroup extends Model
      * @var boolean
      */
     public $timestamps = true;
-    const TYPE_NORMAL = 'normal';
+    const TYPE_KECERMATAN = 'kecermatan';
+    const TYPE_KECERDASAN = 'kecerdasan';
     const TYPE_KEPRIBADIAN = 'kepribadian';
-    const TYPE_MULTI_JAWABAN = 'multi_jawaban';
     // Scopes...
 
     // Functions ...
     static function typeQuestionGroupForOption(){
         return [
-            'Normal' => Self::TYPE_NORMAL,
-            'Kepribadian' => Self::TYPE_KEPRIBADIAN,
-            'Multi Jawaban' => Self::TYPE_MULTI_JAWABAN
+            'Kecermatan' => Self::TYPE_KECERMATAN,
+            'Kecerdasan' => Self::TYPE_KECERDASAN,
+            'Kepribadian' => Self::TYPE_KEPRIBADIAN
         ];
     }
 
     static function typeQuestionGroup(){
         return [
-            Self::TYPE_NORMAL,
-            Self::TYPE_KEPRIBADIAN,
-            Self::TYPE_MULTI_JAWABAN
+            Self::TYPE_KECERMATAN,
+            Self::TYPE_KECERDASAN,
+            Self::TYPE_KEPRIBADIAN
         ];
+    }
+
+    static function canSkipQuestion($type){
+        return in_array($type,[
+            Self::TYPE_KECERDASAN
+        ]);
     }
 
     public function getTypeStrAttribute(){
@@ -118,7 +124,7 @@ class QuestionGroup extends Model
 
     // Relations ...
     public function room(){
-        return $this->hasManyThrough(Rooms::class,'room_question_groups');
+        return $this->hasManyThrough(Room::class,'room_question_groups');
     }
 
     public function sections(){

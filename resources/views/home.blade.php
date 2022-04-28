@@ -89,7 +89,7 @@
     </div>
 
     <!-- Modal Structure -->
-    <div id="modalPin" class="modal" style="width: 500px; text-align: center">
+    <div id="modalPin" class="modal" style="width: 300px; text-align: center">
         <form action="{{route('submit-key')}}" method="post">
             @csrf
             <div class="modal-content">
