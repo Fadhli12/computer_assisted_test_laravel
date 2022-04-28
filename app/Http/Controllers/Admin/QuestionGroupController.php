@@ -243,7 +243,7 @@ class QuestionGroupController extends Controller
                 $question->answers()->where('choice', $data['value'])->update([
                     'value' => 1
                 ]);
-            } else if ($question_group->type === QuestionGroup::TYPE_MULTI_JAWABAN) {
+            } else if ($question_group->type === QuestionGroup::TYPE_KECERDASAN) {
                 $question->answers()->whereIn('choice', $data['value'])->update([
                     'value' => 1
                 ]);

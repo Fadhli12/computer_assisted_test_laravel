@@ -76,6 +76,10 @@
         .clue {
             letter-spacing: 4rem;
         }
+
+        .hide {
+            display: none
+        }
     </style>
 </head>
 <body>
@@ -88,22 +92,21 @@
                 <a href="#" data-target="side-nav" class="sidenav-trigger black-text right"
                    style="margin: -10px -25px 0"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="black-text"><span class="fa fa-user-circle-o"></span> Hi, Muhammad Fadhli</a></li>
-                    <li><a class="black-text"><span class="fa fa-tasks"></span> <span class="grey-text text-darken-1">Kelas: </span><span
-                                class="bolder">A</span></a></li>
+                    <li><a class="black-text"><span class="fa fa-user-circle-o"></span> Hi, {{$participant->name}}</a></li>
+
                     <li><a class="black-text dropdown-trigger" href="#!" data-target='jenisSoal'><span
                                 class="grey-text text-darken-1">Jenis Soal: </span><span
-                                class="bolder">Soal 1</span></a></li>
-                    <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span>
-                            Logout</a></li>
+                                class="bolder">{{ucwords($question_group->type)}}</span></a></li>
+{{--                    <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span>--}}
+{{--                            Logout</a></li>--}}
                 </ul>
             </div>
         </nav>
         <ul class="sidenav" id="side-nav">
-            <li><a class="black-text"><i class="material-icons">account_circle</i> Muhammad Fadhli</a></li>
+            <li><a class="black-text"><i class="material-icons">account_circle</i> {{$participant->name}}</a></li>
             <li><a class="black-text dropdown-trigger" data-target='jenisSoal'><i class="material-icons">assignment</i>
-                    SOAL 1</a></li>
-            <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span> Logout</a></li>
+                    {{ucwords($question_group->type)}}</a></li>
+{{--            <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span> Logout</a></li>--}}
         </ul>
         <!-- Dropdown Structure -->
         <ul id="jenisSoal" class="dropdown-content">
@@ -128,10 +131,12 @@
                     </span>
                     <div>
                         @foreach($question_group->sections AS $section_index => $section)
-                            <div id="section-{{$section_index}}" style="{{$section_index > 0 ? 'display:none' : ''}}">
+                            <div id="section-{{$section_index}}" class="{{$section_index > 0 ? 'hide' : ''}}">
                                 @foreach($section->questions AS $question_index => $question)
-                                    <div id="question-{{$question_index}}"
-                                         style="{{$question_index > 0 ? 'display:none' : ''}}">
+                                    <div id="question-{{$section_index}}-{{$question_index}}"
+                                         data-question="{{$question_index}}"
+                                         data-section="{{$section_index}}"
+                                         class="{{$question_index > 0 ? 'hide' : ''}}">
                                         <div style="margin-top: 5rem;" class="text-center">
                                             <table style="width: 60%; margin: auto">
                                                 <tr>
@@ -214,7 +219,10 @@
     console.log(data_quiz);
     let now = new Date();
     let start = new Date();
+    let end = new Date();
     let count = 0;
+    let milisecond = 0;
+    var totalSeconds = 0;
     cekSection();
 
     function cekSection() {
@@ -223,6 +231,7 @@
         data_quiz.forEach(function (val, index) {
             if (index == 0) {
                 start = new Date(val.start)
+                end = new Date(val.end)
             }
             if (val.status == 'start') {
                 console.log('ini index nya', index);
@@ -230,21 +239,22 @@
                 console.log(now);
                 console.log(start_section);
                 let begin = now >= start_section ? now : start_section;
-                let end = new Date(val.end);
+                now = begin
+                end = new Date(val.end);
                 console.log(now > end);
                 console.log(now)
                 console.log(end)
                 if (now > end) {
                     endSection(index)
                 } else {
-                    $('#section-' + index).show().siblings().hide();
+                    $('#section-' + index).removeClass('hide').siblings().addClass('hide');
                     val.questions.forEach(function (question,index2){
                         if (question.user_answer){
-                            $('#section-'+index+'>#question-'+index2).hide();
+                            $('#section-'+index+'>#question-'+index+'-'+index2).hide();
                         } else {
-                            let next = $('#section-'+index+'>#question-'+index2);
+                            let next = $('#section-'+index+'>#questionn-'+index+'-'+index2);
                             if (next.length){
-                                next.show()
+                                next.removeClass('hide')
                             }
                         }
                     })
@@ -257,6 +267,8 @@
             } else if (val.status == 'end') {
                 count++;
             }
+            milisecond = now.getTime() - end.getTime();
+            totalSeconds = milisecond / 1000;
         })
         localStorage.setItem(quiz_name, JSON.stringify(data_quiz));
         if (data_quiz.length == count) {
@@ -265,11 +277,12 @@
                 _token : '{{csrf_token()}}',
                 data : data_final
             }).then(function (){
+                localStorage.removeItem(quiz_name)
                 location.reload();
             },function (er){
                 alert('session ended with error')
                 console.log(er)
-                location.href = '{{route('home')}}'
+                {{--location.href = '{{route('home')}}'--}}
             })
         }
         console.log('ini data final', JSON.parse(localStorage.getItem(quiz_name)));
@@ -280,33 +293,31 @@
         data_quiz[section].status = 'end';
         if ($('#section-' + (section + 1)).length) {
             data_quiz[section + 1].status = 'start';
-            $('#section-' + (section + 1)).show().siblings().hide()
+            $('#section-' + (section + 1)).removeClass('hide').siblings().addClass('hide');
         }
         localStorage.setItem(quiz_name, JSON.stringify(data_quiz));
         cekSection();
     }
 
-    let milisecond = now.getTime() - start.getTime();
-
     var minutesLabel = document.getElementById("minutes");
     var secondsLabel = document.getElementById("seconds");
-    var totalSeconds = milisecond / 1000;
     setInterval(setTime, 1000);
 
     function setTime() {
         ++totalSeconds;
-        secondsLabel.innerHTML = pad(parseInt(totalSeconds % 60));
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        secondsLabel.innerHTML = pad(Math.abs(parseInt(totalSeconds % 60)));
+        minutesLabel.innerHTML = pad(Math.abs(parseInt(totalSeconds / 60)));
     }
     $('.answer').click(function (e){
         e.preventDefault();
         var index = $(this).attr('index');
         var section_index = $(this).attr('section-index');
         var value = $(this).val();
-        $('#section-'+section_index+'>#question-'+index).hide();
-        var next = $('#section-'+section_index+'>#question-'+parseInt(index+1));
+        $('#section-'+section_index+'>#question-'+section_index+'-'+index).hide();
+        var next = $('#section-'+section_index+'>#question-'+section_index+'-'+parseInt(index+1));
+        console.log(next)
         if (next.length){
-            next.show();
+            next.removeClass('hide');
         }
         let data_quiz = JSON.parse(localStorage.getItem(quiz_name))
         data_quiz[section_index]['questions'][index]['user_answer'] = value

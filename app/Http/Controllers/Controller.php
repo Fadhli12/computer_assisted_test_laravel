@@ -98,6 +98,13 @@ class Controller extends BaseController
             $room = [];
             $total_time = 0;
             foreach ($access_room->room->questionGroups AS $index => $group){
+                if ($index > 0){
+                    $room["_".$group->id] = [
+                        'start_time' => null,
+                        'limit_time' => null,
+                        'status' => 'waiting'
+                    ];
+                }
                 $room[$group->id] = [
                     'start_time' => $index === 0 ? now() : null,
                     'limit_time' => now()->addMinutes($group->duration_per_section * $group->section_ammount),
@@ -132,17 +139,27 @@ class Controller extends BaseController
             return redirect()->route('home');
         }
         $data = DB::table('participant_progress_temp')->where('token_id',$token_id)->first();
+        $participant = Participant::where('token_id',$token_id)->first();
         $question_group = null;
+        $waiting = false;
         if ($data){
             $progress = json_decode($data->progress);
             if ($progress->status == 'start') {
                 foreach ($progress->room as $room_id => $value) {
                     if ($value->status == 'start') {
-                        $question_group = QuestionGroup::with('sections.questions.answers')->find($room_id);
                         session(['current_room_id' => $room_id]);
+                        if (str_contains($room_id,'_')){
+                            $waiting = true;
+                            $room_id = str_replace('_','',$room_id);
+                        }
+                        $question_group = QuestionGroup::with('sections.questions.answers')->find($room_id);
                     }
                 }
             }
+        }
+        if ($waiting){
+            $start_at = now()->addMinutes(1);
+            return view('waiting_room',compact('question_group','participant','start_at'));
         }
         if ($question_group){
             $duration = $question_group->duration_per_section;
@@ -157,18 +174,18 @@ class Controller extends BaseController
                         if ($question_group->type === QuestionGroup::TYPE_KEPRIBADIAN){
                             return [
                                 'index' => $index,
-                                'question' => $value->question,
+                                'question' => base64_encode($value->question),
                                 'answers' => $value->answers->map(function ($value, $index) {
                                     return [
                                         'index' => $index,
-                                        'answer' => $value->answer,
+                                        'answer' => base64_encode($value->answer),
                                         'choice' => $value->choice,
                                         'value' => $value->value
                                     ];
                                 }),
                                 'correct_choice' => $answer->pluck('choice'),
                                 'correct_answer' => $answer->map(function ($value) {
-                                    return $value->answer;
+                                    return base64_encode($value->answer);
                                 }),
                                 'user_answer' => null
                             ];
@@ -177,32 +194,32 @@ class Controller extends BaseController
                                 $answer = $answer[0];
                                 return [
                                     'index' => $index,
-                                    'question' => $value->question,
+                                    'question' => base64_encode($value->question),
                                     'answers' => $value->answers->map(function ($value, $index) {
                                         return [
                                             'index' => $index,
-                                            'answer' => $value->answer,
+                                            'answer' => base64_encode($value->answer),
                                             'choice' => $value->choice
                                         ];
                                     }),
                                     'correct_choice' => $answer->choice,
-                                    'correct_answer' => $answer->answer,
+                                    'correct_answer' => base64_encode($answer->answer),
                                     'user_answer' => null
                                 ];
                             } else {
                                 return [
                                     'index' => $index,
-                                    'question' => $value->question,
+                                    'question' => base64_encode($value->question),
                                     'answers' => $value->answers->map(function ($value, $index) {
                                         return [
                                             'index' => $index,
-                                            'answer' => $value->answer,
+                                            'answer' => base64_encode($value->answer),
                                             'choice' => $value->choice
                                         ];
                                     }),
                                     'correct_choice' => $answer->pluck('choice'),
                                     'correct_answer' => $answer->map(function ($value) {
-                                        return $value->answer;
+                                        return base64_encode($value->answer);
                                     }),
                                     'user_answer' => []
                                 ];
@@ -211,7 +228,7 @@ class Controller extends BaseController
                     }),
                 ];
             });
-            return view($question_group->type, compact('question_group','data_quiz'));
+            return view($question_group->type, compact('question_group','data_quiz','participant'));
         }
         $progress->status = 'end';
         DB::table('participant_progress_temp')->where('token_id',$token_id)->update([
@@ -222,14 +239,25 @@ class Controller extends BaseController
 
     public function saveProgress(Request $request){
         $input = $request->validate([
-            'data' => 'required'
+            'data' => 'nullable'
         ]);
         if ($token_id = session('token_id')){
             if ($data = DB::table('participant_progress_temp')->where('token_id',$token_id)->first()){
                 $room_id = session('current_room_id');
                 $progress = json_decode($data->progress);
-                $progress->room->{$room_id}->progress = $input['data'];
-                $progress->room->{$room_id}->status = 'end';
+                $next_start = false;
+                foreach ($progress->room AS $key => $value) {
+                    if ($next_start){
+                        $progress->room->{$key}->status = 'start';
+                        $progress->room->{$key}->start_time = now();
+                        $next_start = false;
+                    }
+                    if ($key == $room_id){
+                        $progress->room->{$key}->progress = $input['data'] ?? null;
+                        $progress->room->{$key}->status = 'end';
+                        $next_start = true;
+                    }
+                }
                 DB::table('participant_progress_temp')->where('token_id',$token_id)->update([
                     'progress' => json_encode($progress)
                 ]);

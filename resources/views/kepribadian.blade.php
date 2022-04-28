@@ -63,21 +63,19 @@
                 <a href="#" data-target="side-nav" class="sidenav-trigger black-text right"
                    style="margin: -10px -25px 0"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="black-text"><span class="fa fa-user-circle-o"></span> Hi, Muhammad Fadhli</a></li>
-                    <li><a class="black-text"><span class="fa fa-tasks"></span> <span class="grey-text text-darken-1">Kelas: </span><span
-                                class="bolder">A</span></a></li>
+                    <li><a class="black-text"><span class="fa fa-user-circle-o"></span> Hi, {{$participant->name}}</a></li>
                     <li><a class="black-text"><span class="grey-text text-darken-1">Jenis Soal: </span><span
-                                class="bolder">Kecerdasan</span></a></li>
-                    <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span>
-                            Logout</a></li>
+                                class="bolder">{{ucwords($question_group->type)}}</span></a></li>
+{{--                    <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span>--}}
+{{--                            Logout</a></li>--}}
                 </ul>
             </div>
         </nav>
         <ul class="sidenav" id="side-nav">
-            <li><a class="black-text"><i class="material-icons">account_circle</i> Muhammad Fadhli</a></li>
+            <li><a class="black-text"><i class="material-icons">account_circle</i> {{$participant->name}}</a></li>
             <li><a class="black-text dropdown-trigger" data-target='jenisSoal'><i class="material-icons">assignment</i>
-                    Kecerdasan</a></li>
-            <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span> Logout</a></li>
+                    {{ucwords($question_group->type)}}</a></li>
+{{--            <li><a class="btn red lighten-2 waves-effect waves-light"><span class="fa fa-tasks"></span> Logout</a></li>--}}
         </ul>
     </div>
 </header>
@@ -102,14 +100,14 @@
                                                 <span class="navigate-header">
                     {{--                        <span class="number">Waktu Pengerjaan</span>--}}
                                             <span class="timer pulse red lighten-4">
-                                                <span id="minutes">00</span>:<span
-                                                        id="seconds">00</span></span>
+                                                <span class="minutes">00</span>:<span
+                                                        class="seconds">00</span></span>
                                         </span>
 
                                             </div>
                                             <div class="col m6">
                                                 <h6 class="grey-text text-darken-2" style="margin-top: 25px">
-                                                    <b>SOAL KE-{{$loop->iteration}} DARI 10 PERTANYAAN</b>
+                                                    <b>SOAL KE-{{$loop->iteration}} DARI {{$section->questions->count()}} PERTANYAAN</b>
                                                 </h6>
                                             </div>
                                         </div>
@@ -184,6 +182,7 @@
     console.log(data_quiz);
     let now = new Date();
     let start = new Date();
+    let end = new Date();
     let count = 0;
     cekSection();
     showAnswer()
@@ -200,7 +199,7 @@
                 console.log(now);
                 console.log(start_section);
                 let begin = now >= start_section ? now : start_section;
-                let end = new Date(val.end);
+                end = new Date(val.end);
                 console.log(now > end);
                 console.log(now)
                 console.log(end)
@@ -235,11 +234,12 @@
                 _token: '{{csrf_token()}}',
                 data: data_final
             }).then(function () {
+                localStorage.removeItem(quiz_name)
                 location.reload();
             }, function (er) {
                 alert('session ended with error')
                 console.log(er)
-                location.href = '{{route('home')}}'
+                {{--location.href = '{{route('home')}}'--}}
             })
         }
         console.log('ini data final', JSON.parse(localStorage.getItem(quiz_name)));
@@ -256,17 +256,15 @@
         cekSection();
     }
 
-    let milisecond = now.getTime() - start.getTime();
+    let milisecond = now.getTime() - end.getTime();
 
-    var minutesLabel = document.getElementById("minutes");
-    var secondsLabel = document.getElementById("seconds");
     var totalSeconds = milisecond / 1000;
     setInterval(setTime, 1000);
 
     function setTime() {
         ++totalSeconds;
-        secondsLabel.innerHTML = pad(parseInt(totalSeconds % 60));
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        $('.seconds').html(pad(Math.abs(parseInt(totalSeconds % 60))));
+        $('.minutes').html(pad(Math.abs(parseInt(totalSeconds / 60))));
     }
 
     function pad(val) {

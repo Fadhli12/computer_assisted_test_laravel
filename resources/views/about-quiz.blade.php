@@ -101,9 +101,9 @@
                 </div>
                 <div class="card-panel grey lighten-4 z-depth-0" style="border-radius: 20px">
                     <h6>DESKRIPSI QUIZ</h6> <br>
-                    @foreach ($access_room->room->questionGroups AS $group)
-                        <ul class="collapsible popout">
-                            <li class="active z-depth-0">
+                    @foreach ($access_room->room->questionGroups AS $index => $group)
+                        <ul class="collapsible">
+                            <li class="z-depth-0  {{$index == 0 ? "active" : ""}}">
                                 <div class="collapsible-header"><i class="material-icons">event_note</i> {{$group->name}} </div>
                                 <div class="collapsible-body white" style="text-align: left!important;">
                                     <i>{{$group->group_type}}</i>

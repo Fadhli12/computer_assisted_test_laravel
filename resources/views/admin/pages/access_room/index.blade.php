@@ -72,6 +72,9 @@
                             Key
                         </th>
                         <th>
+                            Room
+                        </th>
+                        <th>
                             Type
                         </th>
                         <th>
@@ -95,6 +98,7 @@
                     @forelse ($access_rooms AS $access_room)
                         <tr>
                             <td>{{$access_room->key}}</td>
+                            <td>{{$access_room->room->name}}</td>
                             <td>{{$access_room->type}}</td>
                             <td>{{$access_room->limit_access}}</td>
                             <td>{{$access_room->valid_until}}</td>
