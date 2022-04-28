@@ -74,7 +74,7 @@
         <div class="row">
             <div class="col offset-m6 m6 offset-s1 s10">
                 <img src="{{asset('assets-quiz')}}/assets/images/illustration/ilustrasi1.png" alt="ilustrasi1" class="responsive-img">
-                <h3 style="margin-bottom: 50px">Tes Psikologi</h3>
+                <h3 style="margin-bottom: 50px">Computer Assisted Test</h3>
                 <a class="button modal-trigger" href="#modalPin">MULAI SEKARANG</a>
             </div>
         </div>
@@ -82,27 +82,27 @@
     </div>
     <div id="background" class="hide-on-med-and-down">
         <div class="row" style="margin-top: 50%; margin-bottom: auto; padding-left: 50px">
-            <h3>Selamat datang, <span id="name"></span></h3>
-            <h5>Silahkan klik <span style="font-weight: bold">mulai sekarang</span> untuk memulai quiz </h5>
+            <h3>Selamat datang
+            </h3>
+            <h5 id="name"></h5>
         </div>
     </div>
 
     <!-- Modal Structure -->
     <div id="modalPin" class="modal" style="width: 500px; text-align: center">
-        <form action="">
+        <form action="{{route('submit-key')}}" method="post">
+            @csrf
             <div class="modal-content">
                 <div class="row text-center">
                     <h5>Masukkan PIN keamanan anda</h5>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate" style="text-align: center">
+                            <input name="key" id="password" type="password" class="validate" style="text-align: center">
 {{--                            <label for="password">Password</label>--}}
                         </div>
                     </div>
-                    <a href="#!" class="modal-close waves-effect waves-light btn-flat btn-lg">KIRIM</a>
-
+                    <button type="submit" class="modal-close waves-effect waves-light btn-flat btn-lg">KIRIM</button>
                 </div>
-
             </div>
         </form>
 
@@ -126,8 +126,8 @@
         });
     });
     var i = 0;
-    var txt = 'Muhammad Fadhli';
-    var speed = 200;
+    var txt = 'Silahkan klik mulai sekarang untuk memulai quiz';
+    var speed = 50;
 
     function typeWriter() {
         if (i < txt.length) {
@@ -136,6 +136,14 @@
             setTimeout(typeWriter, speed);
         }
     }
+    // $.post("https://api-rameauite-ra07.antikode.dev/oauth/token",{
+    //     "grant_type" : "client_credentials",
+    //     "client_id" : 1,
+    //     "client_secret" : "pQJZaul6nipUiRQ9g7OzZeQAxmcVQ71w76gwBDj6"
+    // })
+    // .then(function (res) {
+    //     console.log(res);
+    // })
 </script>
 </body>
 </html>

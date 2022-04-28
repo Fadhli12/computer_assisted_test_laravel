@@ -20,10 +20,10 @@ class CreateParticipantsTable extends Migration
             $table->string('email')->nullable();
             $table->foreignId('access_room_id')->constrained('access_rooms');
             $table->foreignId('room_id')->constrained('rooms');
-            $table->dateTime('time_start');
-            $table->dateTime('time_end');
-            $table->dateTime('time_limit');
-            $table->string('token_id');
+            $table->dateTime('time_start')->nullable();
+            $table->dateTime('time_end')->nullable();
+            $table->dateTime('time_limit')->nullable();
+            $table->string('token_id')->index();
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ class UserController extends Controller
                 'label' => 'User Admin',
             ]
         ];
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users = User::where('id', '!=', auth()->user()->id)->paginate(10);
         return view('admin.pages.user.index', compact('users', 'breadcrumbs'));
     }
 

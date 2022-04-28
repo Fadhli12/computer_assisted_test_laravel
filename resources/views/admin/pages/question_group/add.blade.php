@@ -32,6 +32,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for=""> Group Description</label>
+                    <input class="form-control"
+                           name="group_type"
+                           placeholder="Enter Group Description"
+                           value="{{$question_group->group_type ?? old('group_type')}}"
+                           type="text" required/>
+                    <div class="help-block form-text with-errors form-control-feedback">
+                        <ul class="list-unstyled">
+                            @foreach ($errors->get('group_type') AS $err)
+                                <li>{{$err}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for=""> Type</label>
                     <select name="type" class="form-control" required>
                         @foreach ($types AS $key => $type)
