@@ -119,9 +119,10 @@
     let now = new Date();
     let end = new Date("{{$start_at}}");
     let waiting = end.getTime() - now.getTime()
-    setTimeout(function (){
+    setTimeout(function () {
         endSection()
-    },waiting)
+    }, waiting)
+
     function endSection() {
         $.post('{{route('save-progress')}}', {
             _token: '{{csrf_token()}}',
@@ -142,8 +143,10 @@
 
     function setTime() {
         ++totalSeconds;
-        $('#seconds').html(pad(parseInt(Math.abs(totalSeconds % 60))));
-        $('#minutes').html(pad(parseInt(Math.abs(totalSeconds / 60))));
+        if (totalSeconds <= 0) {
+            $('#seconds').html(pad(parseInt(Math.abs(totalSeconds % 60))));
+            $('#minutes').html(pad(parseInt(Math.abs(totalSeconds / 60))));
+        }
     }
 
     function pad(val) {

@@ -272,8 +272,10 @@
     setInterval(setTime, 1000);
     function setTime() {
         ++totalSeconds;
-        $('.seconds').html(pad(Math.abs(parseInt(totalSeconds % 60))));
-        $('.minutes').html(pad(Math.abs(parseInt(totalSeconds / 60))));
+        if (totalSeconds <= 0 ) {
+            $('.seconds').html(pad(Math.abs(parseInt(totalSeconds % 60))));
+            $('.minutes').html(pad(Math.abs(parseInt(totalSeconds / 60))));
+        }
     }
 
     function pad(val) {

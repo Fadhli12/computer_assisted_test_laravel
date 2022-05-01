@@ -234,6 +234,8 @@ class Controller extends BaseController
         DB::table('participant_progress_temp')->where('token_id',$token_id)->update([
             'progress' =>  json_encode($progress)
         ]);
+
+
         dd($progress);
     }
 

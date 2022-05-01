@@ -299,14 +299,14 @@
         cekSection();
     }
 
-    var minutesLabel = document.getElementById("minutes");
-    var secondsLabel = document.getElementById("seconds");
     setInterval(setTime, 1000);
 
     function setTime() {
         ++totalSeconds;
-        secondsLabel.innerHTML = pad(Math.abs(parseInt(totalSeconds % 60)));
-        minutesLabel.innerHTML = pad(Math.abs(parseInt(totalSeconds / 60)));
+        if (totalSeconds <= 0) {
+            $('#seconds').html(pad(parseInt(Math.abs(totalSeconds % 60))));
+            $('#minutes').html(pad(parseInt(Math.abs(totalSeconds / 60))));
+        }
     }
     $('.answer').click(function (e){
         e.preventDefault();
